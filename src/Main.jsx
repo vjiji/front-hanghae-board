@@ -1,7 +1,7 @@
 import React from "react";
 
 const Main = () => {
-  return <div>항해 보드</div>;
+  return <div>test</div>;
 };
 
 export default Main;
