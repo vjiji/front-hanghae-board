@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Layout from "./Layout";
-import Main from "./Main";
+import Layout from "components/layout/Layout";
+import Main from "pages/Main";
 
 const Router = () => {
   return (
