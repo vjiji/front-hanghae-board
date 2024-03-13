@@ -1,13 +1,14 @@
-import React from 'react';
 import styled from 'styled-components';
 import icon from 'assets/upload-image-icon.svg';
 import Input from 'components/common/Input';
 import { useForm } from 'react-hook-form';
+import { POST_CATEGORY } from 'constants/sharedConstants';
+import { useState } from 'react';
+import Select from 'components/common/Select';
 // import { POST_CATEGORY } from 'constants/sharedConstants';
 
 const PostForm = () => {
   const formValues = {
-    category: '',
     title: '',
     content: '',
     image: '',
@@ -23,8 +24,13 @@ const PostForm = () => {
   });
 
   const handleFormSubmit = (form) => {
-    console.log(form);
+    console.log({ category, ...form });
     console.log('add post');
+  };
+
+  const [category, setCategory] = useState('');
+  const handleCategorySelect = (name) => {
+    setCategory(name);
   };
 
   return (
@@ -32,6 +38,11 @@ const PostForm = () => {
       onSubmit={handleSubmit(handleFormSubmit)}
     >
       <h1>뉴스 작성</h1>
+      <Select
+        options={POST_CATEGORY}
+        selected={category}
+        handleOptionClick={handleCategorySelect}
+      />
       <p>
         {errors?.title && errors.title.message}
       </p>
