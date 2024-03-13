@@ -2,6 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 
 const Main = () => {
+  console.log(
+    process.env.REACT_APP_SERVER_BASE_URL,
+  );
   return (
     <MainArticle>
       <ArticleTop>
