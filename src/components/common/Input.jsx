@@ -1,20 +1,29 @@
+import { forwardRef } from 'react';
 import styled from 'styled-components';
 
-const Input = ({
-  placeholder,
-  value,
-  handleChangeInput,
-  ...props
-}) => {
-  return (
-    <InputStyles
-      placeholder={placeholder}
-      value={value}
-      onChange={handleChangeInput}
-      {...props}
-    />
-  );
-};
+const Input = forwardRef(
+  (
+    {
+      placeholder,
+      value,
+      handleChangeInput,
+      ...props
+    },
+    ref,
+  ) => {
+    return (
+      <InputStyles
+        placeholder={placeholder}
+        value={value}
+        onChange={handleChangeInput}
+        {...props}
+        ref={ref}
+      />
+    );
+  },
+);
+
+Input.displayName = Input;
 
 export default Input;
 

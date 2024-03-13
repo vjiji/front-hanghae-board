@@ -3,17 +3,28 @@ import styled from 'styled-components';
 import icon from 'assets/upload-image-icon.svg';
 import Input from 'components/common/Input';
 import { useForm } from 'react-hook-form';
+// import { POST_CATEGORY } from 'constants/sharedConstants';
 
 const PostForm = () => {
-  const formValues = { title: '', content: '' };
-  const { handleSubmit } = useForm({
+  const formValues = {
+    category: '',
+    title: '',
+    content: '',
+    image: '',
+  };
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
     mode: 'onSubmit',
     defaultValues: formValues,
   });
 
   const handleFormSubmit = (form) => {
-    console.log('1234');
     console.log(form);
+    console.log('add post');
   };
 
   return (
@@ -21,18 +32,16 @@ const PostForm = () => {
       onSubmit={handleSubmit(handleFormSubmit)}
     >
       <h1>뉴스 작성</h1>
-      <select defaultValue="카테고리 선택">
-        <option hidden>카테고리 선택</option>
-        <option>test</option>
-        <option>test2</option>
-      </select>
       <p>
-        {/* {errors?.title && errors.title.message} */}
+        {errors?.title && errors.title.message}
       </p>
       <Input
         placeholder={'뉴스 제목을 입력하세요.'}
         width="360px"
         name={formValues.title}
+        {...register('title', {
+          required: '뉴스 제목을 입력해주세요',
+        })}
       />
       <textarea placeholder="뉴스 내용을 입력하세요" />
       <Label htmlFor="image-input">
