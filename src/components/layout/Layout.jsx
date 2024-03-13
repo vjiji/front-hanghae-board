@@ -14,13 +14,12 @@ const Layout = () => {
 export default Layout;
 
 const Container = styled.div`
-  max-width: 1440px;
-  min-width: 800px;
+  max-width: 100%;
   margin: 0 auto;
-  padding: 0 30px;
 `;
 
 const BodyContainer = styled.div`
   max-width: 1100px;
+  padding: 0 20px;
   margin: 0 auto;
 `;
