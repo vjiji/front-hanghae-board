@@ -1,6 +1,10 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Layout from "components/layout/Layout";
-import Main from "pages/Main";
+import {
+  BrowserRouter,
+  Route,
+  Routes,
+} from 'react-router-dom';
+import Layout from 'components/layout/Layout';
+import Main from 'pages/Main';
 
 const Router = () => {
   return (
