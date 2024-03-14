@@ -1,13 +1,30 @@
-import React from 'react';
+import React, {
+  useState,
+  useEffect,
+} from 'react';
 import styled from 'styled-components';
 import { StyledCloseButton } from 'components/common/Button';
 
 const Modal = ({ children }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  console.log(children);
+  useEffect(() => {
+    setIsOpen(true);
+  }, []);
+
+  const handleClose = () => {
+    setIsOpen(false);
+  };
+
+  if (!isOpen) return null;
+
   return (
     <ModalOverlay>
       <ModalContainer>
-        <StyledCloseButton onClick={() => {}} />
-        {children}{' '}
+        <StyledCloseButton
+          onClick={handleClose}
+        />{' '}
+        {children}
       </ModalContainer>
     </ModalOverlay>
   );
