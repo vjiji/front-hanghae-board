@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
+import CloseIcon from 'icons/close-icon.svg';
 
 const Button = ({
   value,
@@ -34,6 +35,10 @@ const ButtonStyles = styled.button`
   font-weight: 600;
   cursor: pointer;
 
+  &:hover {
+    background-color: #2d2d2d;
+  }
+
   ${({ color }) => {
     switch (color) {
       case 'white':
@@ -47,4 +52,21 @@ const ButtonStyles = styled.button`
         `;
     }
   }}
+`;
+
+// 모달 <닫기 X> 버튼 import해서 쓰면됩니다!
+
+export const StyledCloseButton = styled.button`
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-image: url(${CloseIcon});
+  background-color: #fff;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 30px 30px;
+  border: none;
+  cursor: pointer;
 `;

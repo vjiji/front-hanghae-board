@@ -1,14 +1,12 @@
 import React from 'react';
+import UserModal from 'components/common/UserModal';
 
-const Main = () => {
-  console.log(
-    process.env.REACT_APP_SERVER_BASE_URL,
-  );
+function Main() {
   return (
-    <div>
-      <h1>건들건들</h1>
-    </div>
+    <>
+      <UserModal />
+    </>
   );
-};
+}
 
 export default Main;
