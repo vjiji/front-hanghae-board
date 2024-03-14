@@ -4,8 +4,11 @@ import Input from 'components/common/Input';
 import Select from 'components/common/Select';
 import { POST_CATEGORY } from 'constants/sharedConstants';
 import icon from 'assets/upload-image-icon.svg';
+import { useNavigate } from 'react-router-dom';
+import Button from 'components/common/Button';
 
 const PostForm = () => {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -69,12 +72,17 @@ const PostForm = () => {
         placeholder="이미지를 첨부해 주세요"
         type="file"
         accept="image/*"
-        style={{ visibility: 'hidden' }}
+        style={{ display: 'none' }}
         {...register('imgFile')}
       />
       <ButtonBox>
-        <button>취소</button>
-        <button type="submit">작성</button>
+        <Button
+          handleClickButton={() => navigate('/')}
+          color="white"
+        >
+          취소
+        </Button>
+        <Button type="submit">작성</Button>
       </ButtonBox>
     </FormLayout>
   );
@@ -89,7 +97,6 @@ const FormLayout = styled.form`
   gap: 30px;
 
   h1 {
-    margin-bottom: 15px;
     font-size: 30px;
     font-weight: bold;
   }
@@ -135,4 +142,8 @@ const Label = styled.label`
   cursor: pointer;
 `;
 
-const ButtonBox = styled.div``;
+const ButtonBox = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  gap: 14px;
+`;

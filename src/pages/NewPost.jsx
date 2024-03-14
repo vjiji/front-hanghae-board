@@ -13,7 +13,7 @@ const NewPost = () => {
 export default NewPost;
 
 const NewPostLayout = styled.div`
-  margin-top: 110px;
+  margin: 100px 0;
   display: flex;
   justify-content: center;
 `;

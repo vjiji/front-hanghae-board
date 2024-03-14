@@ -22,7 +22,7 @@ const Select = forwardRef(
             setToggleOpen(!toggleOpen)
           }
         />
-        <ToggleIcon toggleOpen={toggleOpen}>
+        <ToggleIcon $turned={toggleOpen}>
           <img
             src={toggleIcon}
             alt="toggle icon"
@@ -83,8 +83,8 @@ const ToggleIcon = styled.div`
     top: -40px;
     right: 0px;
 
-    ${({ toggleOpen }) =>
-      toggleOpen && 'rotate: 180deg;'}
+    ${({ $turned }) =>
+      $turned && 'rotate: 180deg;'}
   }
 `;
 
