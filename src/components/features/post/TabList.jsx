@@ -3,49 +3,116 @@ import { Link } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 
 const TabList = () => {
-  const [isTab, setIsTab] = useState(false);
-  const onClickTabBtn = () => {
-    setIsTab(true);
-    console.log(isTab);
+  const [activeTab, setActiveTab] = useState(1);
+  const handleTabClick = (tabIndex) => {
+    setActiveTab(tabIndex);
   };
+
   return (
     <>
       <TabMenu>
         <TabBtns>
           <TabBtn
-            isTab={isTab ? !isTab : isTab}
-            onClick={onClickTabBtn}
+            $active={activeTab === 1}
+            onClick={() => handleTabClick(1)}
           >
             최신
           </TabBtn>
           <TabBtn
-            isTab={isTab ? !isTab : isTab}
-            onClick={onClickTabBtn}
+            $active={activeTab === 2}
+            onClick={() => handleTabClick(2)}
           >
             TOP인기
           </TabBtn>
         </TabBtns>
-        <TabContents>
-          <ContList>
-            <ListItem>
-              <Link to="">
-                <ImgWrap>
-                  <img src="" alt="" />
-                </ImgWrap>
-                <InfoWrap>
-                  <em>IT</em>
-                  <h3>개발자들 왜 모였나?</h3>
-                  <p>
-                    항해99 출신 개발자들이 한곳에
-                    모여 작당모의를 진행 중이라..
-                  </p>
-                  <span>송두용 기자</span>
-                  <span>994,999</span>
-                </InfoWrap>
-              </Link>
-            </ListItem>
-          </ContList>
-        </TabContents>
+        {activeTab === 1 && (
+          <TabContents>
+            <ContList>
+              <ListItem>
+                <Link to="">
+                  <ImgWrap>
+                    <img src="" alt="" />
+                  </ImgWrap>
+                  <InfoWrap>
+                    <em>IT</em>
+                    <h3>개발자들 왜 모였나?</h3>
+                    <p>
+                      항해99 출신 개발자들이
+                      한곳에 모여 작당모의를 진행
+                      중이라..
+                    </p>
+                    <span>송두용 기자</span>
+                    <span>994,999</span>
+                  </InfoWrap>
+                </Link>
+              </ListItem>
+            </ContList>
+            <ContList>
+              <ListItem>
+                <Link to="">
+                  <ImgWrap>
+                    <img src="" alt="" />
+                  </ImgWrap>
+                  <InfoWrap>
+                    <em>IT</em>
+                    <h3>개발자들 왜 모였나?</h3>
+                    <p>
+                      항해99 출신 개발자들이
+                      한곳에 모여 작당모의를 진행
+                      중이라..
+                    </p>
+                    <span>송두용 기자</span>
+                    <span>994,999</span>
+                  </InfoWrap>
+                </Link>
+              </ListItem>
+            </ContList>
+          </TabContents>
+        )}
+        {activeTab === 2 && (
+          <TabContents>
+            <ContList>
+              <ListItem>
+                <Link to="">
+                  <ImgWrap>
+                    <img src="" alt="" />
+                  </ImgWrap>
+                  <InfoWrap>
+                    <em>생활문화</em>
+                    <h3>
+                      Cafe 사업 만만치 않아..
+                    </h3>
+                    <p>
+                      메가커피, 컴포즈 커피
+                      너무나도 많은 카페 체인점이
+                      생기고있는 가운데 봄...
+                    </p>
+                    <span>김선하 기자</span>
+                    <span>994,999</span>
+                  </InfoWrap>
+                </Link>
+              </ListItem>
+            </ContList>
+            <ContList>
+              <ListItem>
+                <Link to="">
+                  <ImgWrap>
+                    <img src="" alt="" />
+                  </ImgWrap>
+                  <InfoWrap>
+                    <em>생활문화</em>
+                    <h3>
+                      한끼만 먹어도 살이 찌는 이유
+                    </h3>
+                    <p>밥을 많이 먹어서..</p>
+                    <span>김준오 기자</span>
+                    <span>994,999</span>
+                  </InfoWrap>
+                </Link>
+              </ListItem>
+            </ContList>
+          </TabContents>
+        )}
       </TabMenu>
     </>
   );
@@ -67,8 +134,8 @@ const TabBtn = styled.button`
   border: none;
   font-size: 20px;
   cursor: pointer;
-  ${({ isTab }) =>
-    isTab &&
+  ${({ $active }) =>
+    $active &&
     css`
       &::after {
         content: '';
@@ -97,6 +164,27 @@ const ImgWrap = styled.div`
   background: #ddd;
   height: 280px;
 `;
-const InfoWrap = styled.div``;
+const InfoWrap = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  em {
+    font-size: 20px;
+  }
+  h3 {
+    font-size: 30px;
+    font-weight: 700;
+  }
+  p {
+    font-size: 20px;
+  }
+  span {
+    font-size: 16px;
+    color: #777;
+  }
+  span + span {
+    margin-top: auto;
+  }
+`;
 
 export default TabList;
