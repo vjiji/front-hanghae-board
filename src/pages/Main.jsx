@@ -1,13 +1,13 @@
-import React from 'react';
-import UserModal from 'components/common/UserModal';
-// import Modal from 'components/common/Modal';
+import MainArticle from 'components/features/post/MainArticle';
+import TabList from 'components/features/post/TabList';
 
-function Main() {
+const Main = () => {
   return (
     <>
-      <UserModal />
+      <MainArticle />
+      <TabList />
     </>
   );
-}
+};
 
 export default Main;
