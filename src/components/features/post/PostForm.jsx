@@ -35,7 +35,7 @@ const PostForm = () => {
       <h1>뉴스 작성</h1>
       <Select
         options={POST_CATEGORY}
-        handleOptionClick={handleCategorySelect}
+        handleOptionSelect={handleCategorySelect}
         {...register('category', {
           required: '카테고리를 선택해주세요',
         })}
