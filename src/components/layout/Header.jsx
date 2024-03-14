@@ -1,32 +1,82 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import SearchIcon from 'icons/Search-icon.svg';
 import PenIcon from 'icons/mdi_pen.svg';
+import Modal from 'components/common/Modal';
+import LoginModal from 'components/common/LoginModal';
+import SignupModal from 'components/common/SignupModal';
 
 const Header = () => {
+  const [isModalOpen, setIsModalOpen] =
+    useState(false);
+  const [modalContent, setModalContent] =
+    useState('');
+
+  // 로그인 또는 회원가입 모달 열기
+  const openModal = (content) => {
+    setModalContent(content);
+    setIsModalOpen(true);
+  };
+
+  // 모달 닫기!
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const renderModal = () => {
+    switch (modalContent) {
+      case 'login':
+        return (
+          <LoginModal onClose={closeModal} />
+        );
+      case 'signup':
+        return (
+          <SignupModal onClose={closeModal} />
+        );
+      default:
+        return null;
+    }
+  };
+
   return (
-    <HeaderContainer>
-      <Section>
-        <NewsAction>
-          <img src={PenIcon} alt="작성"></img>
-          <News>뉴스 작성하기</News>
-        </NewsAction>
-        <Logo>항해보드</Logo>
-        <UserActions>
-          <CustomLink>로그인</CustomLink>
-          <CustomLink>회원가입</CustomLink>
-          <img src={SearchIcon} alt="검색" />
-        </UserActions>
-      </Section>
-      <Nav>
-        <NavItem href="#">정치</NavItem>
-        <NavItem href="#">경제</NavItem>
-        <NavItem href="#">사회</NavItem>
-        <NavItem href="#">생활문화</NavItem>
-        <NavItem href="#">세계</NavItem>
-        <NavItem href="#">IT</NavItem>
-      </Nav>
-    </HeaderContainer>
+    <>
+      <HeaderContainer>
+        <Section>
+          <NewsAction>
+            <img src={PenIcon} alt="작성"></img>
+            <News>뉴스 작성하기</News>
+          </NewsAction>
+          <Logo>항해보드</Logo>
+          <UserActions>
+            <CustomLink
+              onClick={() => openModal('login')}
+            >
+              로그인
+            </CustomLink>
+            <CustomLink
+              onClick={() => openModal('signup')}
+            >
+              회원가입
+            </CustomLink>
+            <img src={SearchIcon} alt="검색" />
+          </UserActions>
+        </Section>
+        <Nav>
+          <NavItem href="#">정치</NavItem>
+          <NavItem href="#">경제</NavItem>
+          <NavItem href="#">사회</NavItem>
+          <NavItem href="#">생활문화</NavItem>
+          <NavItem href="#">세계</NavItem>
+          <NavItem href="#">IT</NavItem>
+        </Nav>
+      </HeaderContainer>
+      <Modal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+      >
+        {renderModal()}
+      </Modal>
+    </>
   );
 };
 
