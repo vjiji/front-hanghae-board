@@ -1,4 +1,3 @@
-import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
 import Input from 'components/common/Input';
 import Select from 'components/common/Select';
@@ -7,34 +6,22 @@ import icon from 'assets/upload-image-icon.svg';
 import { useNavigate } from 'react-router-dom';
 import Button from 'components/common/Button';
 
-const PostForm = () => {
+const PostForm = ({
+  register,
+  handleSubmit,
+  errors,
+  watch,
+  setValue,
+}) => {
   const navigate = useNavigate();
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    watch,
-    setValue,
-  } = useForm({
-    mode: 'onSubmit',
-  });
 
   const handleCategorySelect = (name) => {
     setValue('category', name);
   };
   const files = watch('imgFile');
 
-  const handleFormSubmit = (form) => {
-    const fileData = files[0];
-    console.log(files);
-    console.log({ ...form, fileData });
-    console.log('add post');
-  };
-
   return (
-    <FormLayout
-      onSubmit={handleSubmit(handleFormSubmit)}
-    >
+    <FormLayout onSubmit={handleSubmit}>
       <h1>뉴스 작성</h1>
       <Select
         options={POST_CATEGORY}
