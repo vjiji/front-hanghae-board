@@ -65,7 +65,12 @@ const Title = styled.div`
 `;
 
 const InputBlock = styled.div`
+  width: 100%;
   margin-bottom: 20px;
+  input {
+    margin-top: 5px;
+    width: 100%;
+  }
 `;
 
 const UserBlock = styled.div`
