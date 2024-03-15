@@ -63,10 +63,13 @@ const PostEdit = () => {
   };
 
   const handleUpdate = (form) => {
-    const formData = convertFormForRequest({
-      ...form,
-      imgId: post.postImageList[0]?.id,
-    });
+    const formData = convertFormForRequest(
+      {
+        ...form,
+        imgId: post.postImageList[0]?.id,
+      },
+      'updatePostRequestDto',
+    );
     mutate({ post: formData, postId });
   };
 
@@ -75,6 +78,7 @@ const PostEdit = () => {
   return (
     <NewPostLayout>
       <PostForm
+        formName={'뉴스 수정'}
         register={register}
         handleSubmit={handleSubmit(handleUpdate)}
         watch={watch}

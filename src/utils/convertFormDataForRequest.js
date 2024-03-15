@@ -1,6 +1,9 @@
 import { getObjectType } from './getObjectType';
 
-export const convertFormForRequest = (form) => {
+export const convertFormForRequest = (
+  form,
+  jsonName,
+) => {
   const jsonData = {};
   const formData = new FormData();
 
@@ -12,7 +15,7 @@ export const convertFormForRequest = (form) => {
       : (jsonData[key] = value);
   }
   formData.append(
-    'updatePostRequestDto',
+    jsonName,
     new Blob([JSON.stringify(jsonData)], {
       type: 'application/json',
     }),
