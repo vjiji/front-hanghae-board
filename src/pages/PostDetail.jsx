@@ -97,6 +97,10 @@ const ButtonBox = styled.div`
     border: none;
     background: #fff;
     font-size: 16px;
+
+    &:hover {
+      background: rgb(185, 235, 255, 0.2);
+    }
   }
 `;
 
