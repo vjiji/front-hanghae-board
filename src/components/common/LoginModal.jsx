@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Button from 'components/common/Button';
 import Input from 'components/common/Input';
 // import { useNavigate } from 'react-router-dom';
+import { login } from 'apis/login';
 
 const LoginModal = ({ onClose, onLogin }) => {
   // const router = useNavigate();
@@ -15,12 +16,23 @@ const LoginModal = ({ onClose, onLogin }) => {
   const onChangePW = (e) => {
     setPassword(e.target.value);
   };
-  const onClickLogin = () => {
-    console.log(id, password);
-    if (onLogin) {
-      onLogin();
+
+  const onClickLogin = async () => {
+    try {
+      const response = await login(id, password);
+      console.log(response);
+      alert('로그인에 성공하였습니다!');
+
+      if (onLogin) {
+        onLogin(response);
+      }
+      onClose();
+    } catch (error) {
+      console.error('Login error', error);
+      alert(
+        '로그인에 실패하였습니다. 다시 시도해주세요.',
+      );
     }
-    onClose();
 
     setId('');
     setPassword('');
@@ -47,11 +59,11 @@ const LoginModal = ({ onClose, onLogin }) => {
         </TabBtn>
       </UserBlock>
       <InputBlock>
-        <h2>아이디*</h2>
+        <h2>이메일*</h2>
         <Input
           type="text"
           value={id}
-          placeholder="아이디"
+          placeholder="email"
           onChange={onChangeId}
         />
       </InputBlock>

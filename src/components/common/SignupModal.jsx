@@ -1,57 +1,104 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import Button from 'components/common/Button';
-import Input from 'components/common/Input';
+// import Input from 'components/common/Input';
+import { signup } from 'apis/login';
+import Modal from './Modal';
 
 const SignupModal = () => {
   const [isReporter, setIsReporter] =
     useState(false);
+  const [email, setEmail] = useState('');
+  const [nickname, setNickname] = useState('');
+  const [password, setPassword] = useState('');
+  const [adminToken, setAdminToken] =
+    useState('');
+
+  // 회원가입 성공 모달
+  // const [successModal, setSuccessModal] =
+  //   useState(false);
+
+  const handleSignup = async () => {
+    try {
+      //회원가입 aip 호출
+      const response = await signup(
+        email,
+        password,
+        nickname,
+        adminToken,
+      );
+      console.log(response);
+      // setSuccessModal(true);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <>
       <Title>HanghaeBoard</Title>
       <UserBlock>
         <TabBtn
-          active={!isReporter}
+          $active={!isReporter}
           onClick={() => setIsReporter(false)}
         >
           일반회원
         </TabBtn>
         <TabBtn
-          active={isReporter}
+          $active={isReporter}
           onClick={() => setIsReporter(true)}
         >
           기자
         </TabBtn>
       </UserBlock>
       <InputBlock>
-        <h2>아이디*</h2>
-        <Input placeholder="아이디" />
-      </InputBlock>
-      <InputBlock>
-        <h2>비밀번호*</h2>
-        <Input
-          placeholder="비밀번호"
-          type="password"
+        <h2>이메일*</h2>
+        <input
+          placeholder="email"
+          value={email}
+          onChange={(e) =>
+            setEmail(e.target.value)
+          }
         />
       </InputBlock>
       <InputBlock>
-        <h2>비밀번호 확인*</h2>
-        <Input
-          placeholder="비밀번호 확인"
+        <h2>닉네임*</h2>
+        <input
+          placeholder="닉네임"
+          value={nickname}
+          onChange={(e) =>
+            setNickname(e.target.value)
+          }
+        />
+      </InputBlock>
+      <InputBlock>
+        <h2>비밀번호*</h2>
+        <input
+          placeholder="비밀번호"
           type="password"
+          value={password}
+          onChange={(e) =>
+            setPassword(e.target.value)
+          }
         />
       </InputBlock>
       {isReporter && (
         <InputBlock>
           <h2>인증키*</h2>
-          <Input
+          <input
             placeholder="인증키"
             type="text"
+            value={adminToken}
+            onChange={(e) =>
+              setAdminToken(e.target.value)
+            }
           />
         </InputBlock>
       )}
-      <Button>회원가입</Button>
+      <Button onClick={handleSignup}>
+        회원가입
+      </Button>
+      <Modal></Modal>
     </>
   );
 };
@@ -77,5 +124,5 @@ const UserBlock = styled.div`
 const TabBtn = styled.button`
   font-size: 14px;
   font-weight: ${(props) =>
-    props.active ? 'bold' : 'normal'};
+    props.$active ? 'bold' : 'normal'};
 `;
