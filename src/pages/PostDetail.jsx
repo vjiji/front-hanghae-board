@@ -1,4 +1,7 @@
-import { useQuery } from '@tanstack/react-query';
+import {
+  useMutation,
+  useQuery,
+} from '@tanstack/react-query';
 import postsAPI from 'apis/postsAPI';
 import Comment from 'components/features/post/Comment';
 import {
@@ -6,6 +9,11 @@ import {
   useParams,
 } from 'react-router-dom';
 import styled from 'styled-components';
+
+const deletePost = async (postId) => {
+  await postsAPI.deletePost(postId);
+  return;
+};
 
 export const getPostDetail = async (id) => {
   const { data } =
@@ -21,6 +29,15 @@ const PostDetail = () => {
     queryFn: () => getPostDetail(postId),
     enabled: !!postId,
   });
+
+  const { mutate: handleDelete } = useMutation({
+    mutationFn: deletePost,
+    onSuccess: () => {
+      navigate('/');
+      // Todo : 삭제 후 메인페이지 캐싱 데이터 삭제 필요한지 확인
+    },
+  });
+
   if (!post) return <div>....loading</div>;
 
   return (
@@ -35,7 +52,11 @@ const PostDetail = () => {
           >
             수정
           </button>
-          <button>삭제</button>
+          <button
+            onClick={() => handleDelete(postId)}
+          >
+            삭제
+          </button>
         </ButtonBox>
       </TitleBox>
       <p>{post.category}</p>
@@ -100,6 +121,7 @@ const ButtonBox = styled.div`
 
     &:hover {
       background: rgb(185, 235, 255, 0.2);
+      font-weight: 500;
     }
   }
 `;
