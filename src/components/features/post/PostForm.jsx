@@ -1,10 +1,10 @@
 import styled from 'styled-components';
-import Input from 'components/common/Input';
 import Select from 'components/common/Select';
 import { POST_CATEGORY } from 'constants/sharedConstants';
 import icon from 'assets/upload-image-icon.svg';
 import { useNavigate } from 'react-router-dom';
 import Button from 'components/common/Button';
+import RefInput from 'components/common/RefInput';
 
 const PostForm = ({
   formName,
@@ -33,7 +33,7 @@ const PostForm = ({
         })}
       />
       {errors.category && errors.category.message}
-      <Input
+      <RefInput
         placeholder={'뉴스 제목을 입력하세요.'}
         width="360px"
         {...register('title', {

@@ -1,22 +1,21 @@
+import { forwardRef } from 'react';
 import styled from 'styled-components';
 
-const Input = ({
-  placeholder,
-  value,
-  handleChangeInput,
-  ...props
-}) => {
-  return (
-    <InputStyles
-      placeholder={placeholder}
-      value={value}
-      onChange={handleChangeInput}
-      {...props}
-    />
-  );
-};
+const RefInput = forwardRef(
+  ({ placeholder, ...props }, ref) => {
+    return (
+      <InputStyles
+        placeholder={placeholder}
+        {...props}
+        ref={ref}
+      />
+    );
+  },
+);
 
-export default Input;
+RefInput.displayName = RefInput;
+
+export default RefInput;
 
 const InputStyles = styled.input`
   width: ${({ width }) => width};
