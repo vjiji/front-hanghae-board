@@ -7,6 +7,7 @@ import Layout from 'components/layout/Layout';
 import Main from 'pages/Main';
 import NewPost from 'pages/NewPost';
 import PostDetail from 'pages/PostDetail';
+import PostEdit from 'pages/PostEdit';
 
 const Router = () => {
   return (
@@ -21,6 +22,10 @@ const Router = () => {
           <Route
             path="/posts/:id"
             element={<PostDetail />}
+          />
+          <Route
+            path="/editpost/:id"
+            element={<PostEdit />}
           />
         </Route>
       </Routes>

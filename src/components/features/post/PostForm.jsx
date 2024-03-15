@@ -7,22 +7,24 @@ import { useNavigate } from 'react-router-dom';
 import Button from 'components/common/Button';
 
 const PostForm = ({
+  formName,
   register,
   handleSubmit,
   errors,
   watch,
   setValue,
+  imageName,
 }) => {
   const navigate = useNavigate();
 
   const handleCategorySelect = (name) => {
     setValue('category', name);
   };
-  const files = watch('imgFile');
+  const files = watch('files');
 
   return (
     <FormLayout onSubmit={handleSubmit}>
-      <h1>뉴스 작성</h1>
+      <h1>{formName}</h1>
       <Select
         options={POST_CATEGORY}
         handleOptionSelect={handleCategorySelect}
@@ -50,17 +52,17 @@ const PostForm = ({
       <Label htmlFor="image-input">
         <img src={icon} />
         <p>
-          {files?.[0]?.name ??
+          {imageName ??
+            files?.[0]?.name ??
             '이미지를 첨부해 주세요 (최대 5MB)'}
         </p>
       </Label>
       <input
         id="image-input"
-        placeholder="이미지를 첨부해 주세요"
         type="file"
         accept="image/*"
         style={{ display: 'none' }}
-        {...register('imgFile')}
+        {...register('files')}
       />
       <ButtonBox>
         <Button

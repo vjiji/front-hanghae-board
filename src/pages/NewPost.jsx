@@ -4,11 +4,12 @@ import PostForm from 'components/features/post/PostForm';
 import postsAPI from 'apis/postsAPI';
 import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
+import { convertFormForRequest } from 'utils/convertFormDataForRequest';
 
 const createPost = async (post) => {
   const { data } =
     await postsAPI.createPost(post);
-  return data;
+  return data.data;
 };
 
 const NewPost = () => {
@@ -18,7 +19,9 @@ const NewPost = () => {
     mutationFn: createPost,
     onSuccess: (data) => {
       const { id } = data;
+      reset();
       navigate(`/posts/${id}`, { replace: true });
+      // Todo: 포스팅 성공 시, 캐싱된 포스트리스트 삭제 필요한지 확인
     },
   });
 
@@ -28,17 +31,24 @@ const NewPost = () => {
     formState: { errors },
     watch,
     setValue,
+    reset,
   } = useForm({
     mode: 'onSubmit',
   });
 
-  const handlePost = (formData) => {
+  const handlePost = (form) => {
+    const formData = convertFormForRequest(
+      form,
+      'createPostRequestDto',
+    );
+
     mutate(formData);
   };
 
   return (
     <NewPostLayout>
       <PostForm
+        formName={'뉴스 작성'}
         register={register}
         handleSubmit={handleSubmit(handlePost)}
         watch={watch}
