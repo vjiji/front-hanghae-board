@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import postsAPI from 'apis/postsAPI';
+import Comment from 'components/features/post/Comment';
 import {
   useNavigate,
   useParams,
@@ -15,13 +16,11 @@ export const getPostDetail = async (id) => {
 const PostDetail = () => {
   const { id: postId } = useParams();
   const navigate = useNavigate();
-
   const { data: post } = useQuery({
     queryKey: ['postDetail', postId],
     queryFn: () => getPostDetail(postId),
     enabled: !!postId,
   });
-
   if (!post) return <div>....loading</div>;
 
   return (
@@ -53,7 +52,10 @@ const PostDetail = () => {
       <p>
         by. <strong>{post.nickname}</strong>
       </p>
-      <div>comments</div>
+      <Comment
+        id={post.id}
+        commentList={post.commentList}
+      />
     </PostDetailLayout>
   );
 };

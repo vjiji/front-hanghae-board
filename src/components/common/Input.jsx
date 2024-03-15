@@ -33,7 +33,6 @@ const InputStyles = styled.input`
   border: 2px solid #666;
   border-radius: 10px;
   padding: 0 20px;
-  margin-top: 5px;
   font-size: 18px;
   &::placeholder {
     color: #bababa;
