@@ -11,6 +11,13 @@ const Header = () => {
     useState(false);
   const [modalContent, setModalContent] =
     useState('');
+  const [isLogin, setIsLogin] = useState(false);
+
+  // 로그인 처리
+  const handleLoginSuccess = () => {
+    setIsLogin(true); // 로그인 상태를 true로 변경
+    closeModal(); // 모달 닫기
+  };
 
   // 로그인 또는 회원가입 모달 열기
   const openModal = (content) => {
@@ -18,16 +25,24 @@ const Header = () => {
     setIsModalOpen(true);
   };
 
-  // 모달 닫기!
+  // 모달 닫기
   const closeModal = () => {
     setIsModalOpen(false);
+  };
+
+  // 로그아웃 처리
+  const logout = () => {
+    setIsLogin(false);
   };
 
   const renderModal = () => {
     switch (modalContent) {
       case 'login':
         return (
-          <LoginModal onClose={closeModal} />
+          <LoginModal
+            onClose={closeModal}
+            onLogin={handleLoginSuccess}
+          />
         );
       case 'signup':
         return (
@@ -48,16 +63,30 @@ const Header = () => {
           </NewsAction>
           <Logo>항해보드</Logo>
           <UserActions>
-            <CustomLink
-              onClick={() => openModal('login')}
-            >
-              로그인
-            </CustomLink>
-            <CustomLink
-              onClick={() => openModal('signup')}
-            >
-              회원가입
-            </CustomLink>
+            {isLogin ? (
+              // 로그인 상태일 때
+              <CustomLink onClick={logout}>
+                로그아웃
+              </CustomLink>
+            ) : (
+              // 로그인 상태가 아닐 때
+              <>
+                <CustomLink
+                  onClick={() =>
+                    openModal('login')
+                  }
+                >
+                  로그인
+                </CustomLink>
+                <CustomLink
+                  onClick={() =>
+                    openModal('signup')
+                  }
+                >
+                  회원가입
+                </CustomLink>
+              </>
+            )}
             <img src={SearchIcon} alt="검색" />
           </UserActions>
         </Section>

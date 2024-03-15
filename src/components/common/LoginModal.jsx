@@ -2,8 +2,30 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import Button from 'components/common/Button';
 import Input from 'components/common/Input';
+// import { useNavigate } from 'react-router-dom';
 
-const LoginModal = () => {
+const LoginModal = ({ onClose, onLogin }) => {
+  // const router = useNavigate();
+  const [id, setId] = useState('');
+  const [password, setPassword] = useState('');
+
+  const onChangeId = (e) => {
+    setId(e.target.value);
+  };
+  const onChangePW = (e) => {
+    setPassword(e.target.value);
+  };
+  const onClickLogin = () => {
+    console.log(id, password);
+    if (onLogin) {
+      onLogin();
+    }
+    onClose();
+
+    setId('');
+    setPassword('');
+  };
+
   const [isReporter, setIsReporter] =
     useState(false);
 
@@ -12,13 +34,13 @@ const LoginModal = () => {
       <Title>HanghaeBoard</Title>
       <UserBlock>
         <TabBtn
-          active={!isReporter}
+          $active={!isReporter}
           onClick={() => setIsReporter(false)}
         >
           일반회원
         </TabBtn>
         <TabBtn
-          active={isReporter}
+          $active={isReporter}
           onClick={() => setIsReporter(true)}
         >
           기자
@@ -26,23 +48,25 @@ const LoginModal = () => {
       </UserBlock>
       <InputBlock>
         <h2>아이디*</h2>
-        <Input placeholder="아이디" />
+        <Input
+          type="text"
+          value={id}
+          placeholder="아이디"
+          onChange={onChangeId}
+        />
       </InputBlock>
       <InputBlock>
         <h2>비밀번호*</h2>
         <Input
+          type="password"
+          value={password}
           placeholder="비밀번호"
-          type="password"
+          onChange={onChangePW}
         />
       </InputBlock>
-      <InputBlock>
-        <h2>비밀번호 확인*</h2>
-        <Input
-          placeholder="비밀번호 확인"
-          type="password"
-        />
-      </InputBlock>
-      <Button>로그인</Button>
+      <Button onClick={onClickLogin}>
+        로그인
+      </Button>
     </>
   );
 };
@@ -73,5 +97,5 @@ const UserBlock = styled.div`
 const TabBtn = styled.button`
   font-size: 14px;
   font-weight: ${(props) =>
-    props.active ? 'bold' : 'normal'};
+    props.$active ? 'bold' : 'normal'};
 `;
