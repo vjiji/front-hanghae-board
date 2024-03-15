@@ -3,6 +3,7 @@ import axios from 'axios';
 
 export const baseURL = axios.create({
   baseURL: process.env.REACT_APP_SERVER_BASE_URL,
+  headers: { 'Content-Type': `application/json` },
 });
 
 baseURL.interceptors.request.use((config) => {

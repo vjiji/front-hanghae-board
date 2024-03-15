@@ -16,13 +16,11 @@ export const getPostDetail = async (id) => {
 const PostDetail = () => {
   const { id: postId } = useParams();
   const navigate = useNavigate();
-
   const { data: post } = useQuery({
     queryKey: ['postDetail', postId],
     queryFn: () => getPostDetail(postId),
     enabled: !!postId,
   });
-
   if (!post) return <div>....loading</div>;
 
   return (
@@ -54,7 +52,10 @@ const PostDetail = () => {
       <p>
         by. <strong>{post.nickname}</strong>
       </p>
-      <Comment />
+      <Comment
+        id={post.id}
+        commentList={post.commentList}
+      />
     </PostDetailLayout>
   );
 };

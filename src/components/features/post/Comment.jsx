@@ -1,27 +1,59 @@
+import {
+  useMutation,
+  useQueryClient,
+} from '@tanstack/react-query';
+import commentsAPI from 'apis/commentsAPI';
 import Button from 'components/common/Button';
 import Input from 'components/common/Input';
 import { useState } from 'react';
 import styled from 'styled-components';
 // import { useQuery } from '@tanstack/react-query';
 
-const Comment = () => {
+const Comment = ({ commentList, id }) => {
   const [newComment, setNewComment] =
     useState('');
   const handleChangeComment = (e) => {
     setNewComment(e.target.value);
   };
+
+  const createComment = async (comment) => {
+    const { data } =
+      await commentsAPI.createComment(
+        comment,
+        id,
+      );
+    return data.data;
+  };
+  // const deleteComment = async (comment) => {
+  //   const { data } =
+  //     await commentsAPI.deleteComment(
+  //       comment,
+  //       id,
+  //       commentId,
+  //     );
+  //   return data.data;
+  // };
+  const queryClient = useQueryClient();
+  const { mutate } = useMutation({
+    mutationFn: createComment,
+    onSuccess: () => {
+      queryClient.invalidateQueries([
+        'postDetail',
+        id,
+      ]);
+      setNewComment('');
+    },
+  });
   const handleSubmit = (e) => {
     e.preventDefault();
-    const comments = {
-      id: 1,
-      auth: '함석원',
-      date: 20240315,
-      comment: '좋은글 감사합니다',
-    };
-    setNewComment('');
-    console.log(comments);
+  };
+  const handleAddComment = () => {
+    mutate(newComment, id);
   };
 
+  const handleDelComment = () => {
+    alert('d');
+  };
   return (
     <>
       <CommentForm onSubmit={handleSubmit}>
@@ -31,27 +63,34 @@ const Comment = () => {
             placeholder="댓글을 입력해주세요."
             width="100%"
             value={newComment}
-            handleChangeInput={
-              handleChangeComment
-            }
+            onChange={handleChangeComment}
           />
           <Button
-            handleClickButton={handleSubmit}
+            handleClickButton={handleAddComment}
           >
             댓글작성
           </Button>
         </CommentInput>
         <CommentList>
-          <CommentItem>
-            <span>함석원</span>
-            <span>03.31</span>
-            <input
-              type="text"
-              value="좋은 글 감사합니다"
-            />
-            <button>수정</button>
-            <button>삭제</button>
-          </CommentItem>
+          {commentList.map((list) => {
+            return (
+              <CommentItem key={list.id}>
+                <span>{list.nickname}</span>
+                <span>{list.createdAt}</span>
+                <input
+                  type="text"
+                  value={list.comment}
+                  onChange={() => {}}
+                />
+                <button>수정</button>
+                <button
+                  onClick={handleDelComment}
+                >
+                  삭제
+                </button>
+              </CommentItem>
+            );
+          })}
         </CommentList>
       </CommentForm>
     </>
