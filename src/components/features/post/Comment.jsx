@@ -14,7 +14,7 @@ const Comment = () => {
     e.preventDefault();
     const comments = {
       id: 1,
-      writer: '함석원',
+      auth: '함석원',
       date: 20240315,
       comment: '좋은글 감사합니다',
     };
@@ -45,7 +45,10 @@ const Comment = () => {
           <CommentItem>
             <span>함석원</span>
             <span>03.31</span>
-            <p>좋은글 감사합니다.</p>
+            <input
+              type="text"
+              value="좋은 글 감사합니다"
+            />
             <button>수정</button>
             <button>삭제</button>
           </CommentItem>
@@ -77,7 +80,7 @@ const CommentItem = styled.li`
   gap: 10px;
   padding: 10px 0;
   border-bottom: 1px solid #ddd;
-  &&& p {
+  &&& input {
     margin: 0 20px;
     flex: 1;
     font-size: 16px;
