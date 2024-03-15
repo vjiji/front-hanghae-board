@@ -7,14 +7,8 @@ const postsAPI = {
     baseURL.get(`/api/posts/${postId}`),
   updatePost: (id, post) =>
     baseURL.post(`/api/posts/${id}`, post),
-  // axios put 메서드 안될 경우 fetch
-  // fetch(
-  //   `${process.env.REACT_APP_SERVER_BASE_URL}/api/posts/${id}`,
-  //   {
-  //     method: 'PUT',
-  //     body: post,
-  //   },
-  // ),
+  deletePost: (id) =>
+    baseURL.delete(`/api/posts/${id}`),
 };
 
 export default postsAPI;
