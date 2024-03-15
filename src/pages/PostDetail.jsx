@@ -6,7 +6,7 @@ import {
 } from 'react-router-dom';
 import styled from 'styled-components';
 
-const getPostDetail = async (id) => {
+export const getPostDetail = async (id) => {
   const { data } =
     await postsAPI.getPostDetail(id);
   return data.data;
@@ -43,7 +43,7 @@ const PostDetail = () => {
       <ImgBox>
         <img
           src={
-            post.img ??
+            post.postImageList[0]?.url ??
             'https://github.com/pmndrs/zustand/raw/main/bear.jpg'
           }
           alt="post image"
