@@ -4,16 +4,9 @@
 ### macOS ###
 # General
 .DS_Store
-<<<<<<< HEAD
-.env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-=======
+
 .AppleDouble
 .LSOverride
->>>>>>> develop
 
 # Icon must end with two \r
 Icon
