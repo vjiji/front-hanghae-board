@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 const createPost = async (post) => {
   const { data } =
     await postsAPI.createPost(post);
-  console.log(data);
+  return data;
 };
 
 const NewPost = () => {

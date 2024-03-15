@@ -6,7 +6,7 @@ import {
 import Layout from 'components/layout/Layout';
 import Main from 'pages/Main';
 import NewPost from 'pages/NewPost';
-import Detail from 'pages/Detail';
+import PostDetail from 'pages/PostDetail';
 
 const Router = () => {
   return (
@@ -19,8 +19,8 @@ const Router = () => {
             element={<NewPost />}
           />
           <Route
-            path="/:id"
-            element={<Detail />}
+            path="/posts/:id"
+            element={<PostDetail />}
           />
         </Route>
       </Routes>
