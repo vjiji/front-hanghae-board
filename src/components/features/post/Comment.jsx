@@ -206,6 +206,7 @@ const InputWarp = styled.div`
       }
       .comment-input {
         width: 100%;
+        padding-right: 60px;
         position: relative;
         background: #f1f1f1;
       }
