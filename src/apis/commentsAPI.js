@@ -10,9 +10,10 @@ const commentsAPI = {
     baseURL.delete(
       `/api/posts/${postId}/comments/${commentId}`,
     ),
-  modifyComment: (postId, commentId) =>
+  modifyComment: ({ comment, id, commentId }) =>
     baseURL.put(
-      `/api/posts/${postId}/comments/${commentId}`,
+      `/api/posts/${id}/comments/${commentId}`,
+      { comment: comment },
     ),
 };
 
