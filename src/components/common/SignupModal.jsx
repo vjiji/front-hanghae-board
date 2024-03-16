@@ -5,7 +5,7 @@ import Input from 'components/common/Input';
 import { signup } from 'apis/login';
 import Modal from './Modal';
 
-const SignupModal = () => {
+const SignupModal = ({ onClose }) => {
   const [isReporter, setIsReporter] =
     useState(false);
   const [email, setEmail] = useState('');
@@ -15,12 +15,19 @@ const SignupModal = () => {
     useState('');
 
   // 회원가입 성공 모달
-  const [successModal, setSuccessModal] =
+  const [isSuccess, setIsSuccess] =
     useState(false);
+
+  const [message, setMessage] = useState('');
+
+  const handleModalButtonClick = () => {
+    setMessage('');
+    isSuccess && onClose();
+  };
 
   const handleSignup = async () => {
     try {
-      //회원가입 aip 호출
+      //회원가입 api 호출
       const response = await signup(
         email,
         password,
@@ -28,10 +35,11 @@ const SignupModal = () => {
         adminToken,
       );
       console.log(response);
-      setSuccessModal(true);
+      setIsSuccess(true);
+      setMessage('회원가입 성공!');
     } catch (error) {
       console.log(error);
-      alert('회원가입에 실패하였습니다!');
+      setMessage('회원가입에 실패하였습니다!');
     }
   };
 
@@ -100,13 +108,17 @@ const SignupModal = () => {
         회원가입
       </Button>
       <Modal
-        isOpen={successModal}
-        onClose={() => setSuccessModal(false)}
+        isOpen={message}
+        onClose={handleModalButtonClick}
       >
-        <div>
-          <h2>회원가입을 성공!</h2>
-          <Button>확인</Button>
-        </div>
+        <InnerModalLayout>
+          <h2>{message}</h2>
+          <Button
+            onClick={handleModalButtonClick}
+          >
+            확인
+          </Button>
+        </InnerModalLayout>
       </Modal>
     </>
   );
@@ -139,4 +151,8 @@ const TabBtn = styled.button`
   font-size: 14px;
   font-weight: ${(props) =>
     props.$active ? 'bold' : 'normal'};
+`;
+
+const InnerModalLayout = styled.div`
+  text-align: center;
 `;
