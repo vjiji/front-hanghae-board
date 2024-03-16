@@ -1,5 +1,4 @@
 export const POST_CATEGORY = {
-  DEFAULT: '전체',
   SOCIETY: '사회',
   CULTURE: '문화',
   SPORTS: '스포츠',

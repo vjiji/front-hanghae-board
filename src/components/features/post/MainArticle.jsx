@@ -1,75 +1,97 @@
+import { useQuery } from '@tanstack/react-query';
+import postsAPI from 'apis/postsAPI';
+// import { getPostDetail } from 'pages/PostDetail';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 const MainArticle = () => {
+  const getPostAll = async (post) => {
+    const { data } =
+      await postsAPI.getPostAll(post);
+    return data.data;
+  };
+
+  const { data: post } = useQuery({
+    queryKey: ['getPost'],
+    queryFn: () => getPostAll(post),
+  });
+  console.log(post);
+  if (!post) {
+    return null;
+  }
   return (
     <MainArticleWrap>
       <ArticleTop>
-        <WeeklyArticle to="/">
-          <div>
-            <h2>
-              &#34;항햐99 과연 이대로
-              괜찮은가...&#34;
-            </h2>
-            <Editor>
-              <span>이은미 기자</span>
-              <span>88,000</span>
-            </Editor>
-          </div>
-          <ImgWrap>
-            <img src="" alt="" />
-          </ImgWrap>
-        </WeeklyArticle>
-        <HotArticle to="/">
-          <ImgWrap>
-            <img src="" alt="" />
-          </ImgWrap>
-          <div>
-            <h3>
-              &#34;최원장 튜터님 ㅅㄹ해요...&#34;
-            </h3>
-            <Editor>
-              <span>김선하 기자</span>
-              <span>88,000</span>
-            </Editor>
-          </div>
-        </HotArticle>
+        {post
+          .filter((post) => post.id === 1)
+          .map((post) => {
+            console.log(post.index);
+            return (
+              <WeeklyArticle
+                to={`/posts/${post.id}`}
+                key={post.id}
+              >
+                <div>
+                  <h2>&#34;{post.title}&#34;</h2>
+                  <Editor>
+                    <span>
+                      {post.nickname} 기자
+                    </span>
+                    <span>88,000</span>
+                  </Editor>
+                </div>
+                <ImgWrap>
+                  <img
+                    src={post.postImage.url}
+                    alt=""
+                  />
+                </ImgWrap>
+              </WeeklyArticle>
+            );
+          })}
+        {post
+          .filter((post) => post.id === 2)
+          .map((post) => {
+            return (
+              <HotArticle
+                to={`/posts/${post.id}`}
+                key={post.id}
+              >
+                <ImgWrap>
+                  <img
+                    src={post.postImage.url}
+                    alt=""
+                  />
+                </ImgWrap>
+
+                <h3>&#34;{post.title}&#34;</h3>
+                <Editor>
+                  <span>
+                    {post.nickname} 기자
+                  </span>
+                  <span>88,000</span>
+                </Editor>
+              </HotArticle>
+            );
+          })}
       </ArticleTop>
       <ArticleThumList>
         <ul>
-          <li>
-            <Link to="/">
-              <p>요즘 개발자 어떤가요?</p>
-              <ImgWrap>
-                <img src="" alt="" />
-              </ImgWrap>
-            </Link>
-          </li>
-          <li>
-            <Link to="/">
-              <p>요즘 개발자 어떤가요?</p>
-              <ImgWrap>
-                <img src="" alt="" />
-              </ImgWrap>
-            </Link>
-          </li>
-          <li>
-            <Link to="/">
-              <p>요즘 개발자 어떤가요?</p>
-              <ImgWrap>
-                <img src="" alt="" />
-              </ImgWrap>
-            </Link>
-          </li>
-          <li>
-            <Link to="/">
-              <p>요즘 개발자 어떤가요?</p>
-              <ImgWrap>
-                <img src="" alt="" />
-              </ImgWrap>
-            </Link>
-          </li>
+          {post
+            .filter((post) => post.id > 2)
+            .map((post) => {
+              return (
+                <li key={post.id}>
+                  <Link to={`/posts/${post.id}`}>
+                    <p>{post.title}</p>
+                    <ImgWrap>
+                      <img src="" />
+                    </ImgWrap>
+                  </Link>
+                </li>
+              );
+            })}
         </ul>
       </ArticleThumList>
     </MainArticleWrap>
@@ -92,9 +114,6 @@ const WeeklyArticle = styled(Link)`
   display: grid;
   grid-template-columns: 1fr 2fr;
   gap: 20px;
-  img {
-    height: 400px;
-  }
 `;
 const ArticleThumList = styled.div`
   margin-top: 20px;
@@ -107,17 +126,7 @@ const ArticleThumList = styled.div`
     li {
       width: 100%;
       position: relative;
-      background: #ddd;
       overflow: hidden;
-      height: 180px;
-      img {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 100%;
-        height: 100%;
-      }
       p {
         position: absolute;
         bottom: 15px;
@@ -126,17 +135,34 @@ const ArticleThumList = styled.div`
     }
   }
 `;
-const HotArticle = styled(Link)``;
+const HotArticle = styled(Link)`
+  display: block;
+  h3 {
+    margin-top: 20px;
+    font-size: 20px;
+    font-weight: 700;
+  }
+`;
 const ImgWrap = styled.picture`
-  background: #ddd;
+  display: block;
+  position: relative;
+  overflow: hidden;
+  padding-top: 56.25%;
+  height: 0;
+  width: 100%;
   img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     width: 100%;
+    height: auto;
   }
 `;
 const Editor = styled.div`
   display: flex;
   justify-content: space-between;
-  margin-top: 40px;
+  margin-top: 30px;
   color: #999;
 `;
 export default MainArticle;
