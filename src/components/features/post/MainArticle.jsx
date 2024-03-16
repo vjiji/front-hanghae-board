@@ -17,6 +17,7 @@ const MainArticle = () => {
     queryFn: () => getPostAll(post),
   });
 
+  console.log(post);
   if (!post) {
     return null;
   }
