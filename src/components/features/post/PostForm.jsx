@@ -21,7 +21,7 @@ const PostForm = ({
     setValue('category', name);
   };
   const files = watch('files');
-  const categorys = watch('category');
+  const selectedCategory = watch('category');
 
   return (
     <FormLayout onSubmit={handleSubmit}>
@@ -36,7 +36,8 @@ const PostForm = ({
             required: '카테고리를 선택해주세요',
           })}
         />
-        {!categorys && errors.category?.message}
+        {!selectedCategory &&
+          errors.category?.message}
       </FieldBox>
       <FieldBox>
         <RefInput

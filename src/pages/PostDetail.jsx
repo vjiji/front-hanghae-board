@@ -4,6 +4,7 @@ import {
 } from '@tanstack/react-query';
 import postsAPI from 'apis/postsAPI';
 import Comment from 'components/features/post/Comment';
+import { POST_CATEGORY } from 'constants/sharedConstants';
 import {
   useNavigate,
   useParams,
@@ -59,7 +60,7 @@ const PostDetail = () => {
           </button>
         </ButtonBox>
       </TitleBox>
-      <p>{post.category}</p>
+      <p>{POST_CATEGORY[post.category]}</p>
       <ImgBox>
         <img
           src={
