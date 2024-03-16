@@ -6,6 +6,7 @@ import Input from 'components/common/Input';
 import { login } from 'apis/login';
 import useAuthStore from 'store/authStore';
 import Modal from './Modal';
+import { setCookie } from 'cookies/cookies';
 
 function LoginModal({ onClose, onLogin }) {
   // const router = useNavigate();
@@ -26,15 +27,12 @@ function LoginModal({ onClose, onLogin }) {
       email,
       nickname,
     } = response;
+    console.log(response, 'response');
+
+    setCookie('token', token, {});
     useAuthStore
       .getState()
-      .login(
-        token,
-        userId,
-        isReporter,
-        email,
-        nickname,
-      );
+      .login(userId, isReporter, email, nickname);
   };
 
   const [isSuccess, setIsSuccess] =
@@ -48,6 +46,7 @@ function LoginModal({ onClose, onLogin }) {
       setIsSuccess(true);
       setMessage('로그인에 성공하였습니다!');
       loginSuccess(response);
+      // Todo: 토큰, 유저정보 안넘어옴
     } catch (error) {
       console.error('Login error', error);
       setMessage(
