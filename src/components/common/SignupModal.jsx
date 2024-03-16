@@ -31,6 +31,7 @@ const SignupModal = () => {
       setSuccessModal(true);
     } catch (error) {
       console.log(error);
+      alert('회원가입에 실패하였습니다!');
     }
   };
 

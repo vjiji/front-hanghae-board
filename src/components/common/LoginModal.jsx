@@ -4,8 +4,9 @@ import Button from 'components/common/Button';
 import Input from 'components/common/Input';
 // import { useNavigate } from 'react-router-dom';
 import { login } from 'apis/login';
+import useAuthStore from 'store/authStore';
 
-const LoginModal = ({ onClose, onLogin }) => {
+function LoginModal({ onClose, onLogin }) {
   // const router = useNavigate();
   const [id, setId] = useState('');
   const [password, setPassword] = useState('');
@@ -16,13 +17,31 @@ const LoginModal = ({ onClose, onLogin }) => {
   const onChangePW = (e) => {
     setPassword(e.target.value);
   };
+  const LoginSuccess = (response) => {
+    const {
+      token,
+      userId,
+      isReporter,
+      email,
+      nickname,
+    } = response;
+    useAuthStore
+      .getState()
+      .login(
+        token,
+        userId,
+        isReporter,
+        email,
+        nickname,
+      );
+  };
 
   const onClickLogin = async () => {
     try {
       const response = await login(id, password);
       console.log(response);
       alert('로그인에 성공하였습니다!');
-
+      LoginSuccess(response);
       if (onLogin) {
         onLogin(response);
       }
@@ -81,7 +100,7 @@ const LoginModal = ({ onClose, onLogin }) => {
       </Button>
     </>
   );
-};
+}
 
 export default LoginModal;
 
