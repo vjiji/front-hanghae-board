@@ -13,6 +13,7 @@ const createPost = async (post) => {
 };
 
 const NewPost = () => {
+  console.log('test');
   const navigate = useNavigate();
 
   const { mutate } = useMutation({
