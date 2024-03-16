@@ -22,19 +22,30 @@ const Comment = ({ commentList, id }) => {
         comment,
         id,
       );
+
     return data.data;
   };
-  // const deleteComment = async (comment) => {
-  //   const { data } =
-  //     await commentsAPI.deleteComment(
-  //       comment,
-  //       id,
-  //       commentId,
-  //     );
-  //   return data.data;
-  // };
+  const deleteComment = async (commentId) => {
+    const { data } =
+      await commentsAPI.deleteComment(
+        id,
+        commentId,
+      );
+
+    return data.data;
+  };
+  const modifyComment = async (commentId) => {
+    const { data } =
+      await commentsAPI.modifyComment(
+        id,
+        commentId,
+      );
+
+    return data.data;
+  };
+
   const queryClient = useQueryClient();
-  const { mutate } = useMutation({
+  const { mutate: createMutate } = useMutation({
     mutationFn: createComment,
     onSuccess: () => {
       queryClient.invalidateQueries([
@@ -44,15 +55,35 @@ const Comment = ({ commentList, id }) => {
       setNewComment('');
     },
   });
+  const { mutate: deleteMutate } = useMutation({
+    mutationFn: deleteComment,
+    onSuccess: () => {
+      queryClient.invalidateQueries([
+        'postDetail',
+        id,
+      ]);
+    },
+  });
+  const { mutate: modifyMutate } = useMutation({
+    mutationFn: modifyComment,
+    onSuccess: () => {
+      queryClient.invalidateQueries([
+        'postDetail',
+        id,
+      ]);
+    },
+  });
   const handleSubmit = (e) => {
     e.preventDefault();
   };
   const handleAddComment = () => {
-    mutate(newComment, id);
+    createMutate({ comment: newComment }, id);
   };
-
-  const handleDelComment = () => {
-    alert('d');
+  const handleDelComment = (commentId) => {
+    deleteMutate(commentId);
+  };
+  const handleModifyComment = (commnetId) => {
+    modifyMutate(commnetId);
   };
   return (
     <>
@@ -82,9 +113,17 @@ const Comment = ({ commentList, id }) => {
                   value={list.comment}
                   onChange={() => {}}
                 />
-                <button>수정</button>
                 <button
-                  onClick={handleDelComment}
+                  onClick={() =>
+                    handleModifyComment(list.id)
+                  }
+                >
+                  수정
+                </button>
+                <button
+                  onClick={() =>
+                    handleDelComment(list.id)
+                  }
                 >
                   삭제
                 </button>
