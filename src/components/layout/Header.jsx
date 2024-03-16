@@ -33,10 +33,6 @@ const Header = () => {
     );
     navigate('/');
   };
-  // 로그인 처리
-  const handleLoginSuccess = () => {
-    closeModal();
-  };
 
   // 로그인 또는 회원가입 모달 열기
   const openModal = (content) => {
@@ -95,10 +91,7 @@ const Header = () => {
     switch (modalContent) {
       case 'login':
         return (
-          <LoginModal
-            onClose={closeModal}
-            onLogin={handleLoginSuccess}
-          />
+          <LoginModal onClose={closeModal} />
         );
       case 'signup':
         return (

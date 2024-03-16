@@ -1,6 +1,7 @@
 // 회원가입 요청
 
 import { baseURL } from './instance';
+import userAPI from './userAPI';
 
 export const signup = async (
   email,
@@ -44,16 +45,10 @@ export const login = async (email, password) => {
 };
 
 // 회원정보 조회
-export const getUserInfo = async (token) => {
+export const getUser = async () => {
   try {
-    const response = await baseURL.get(
-      '/api/auth',
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      },
-    );
+    const response = await userAPI.getUserInfo();
+    console.log(response.data);
     return response.data;
   } catch (error) {
     console.error(

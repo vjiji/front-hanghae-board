@@ -8,7 +8,7 @@ import useAuthStore from 'store/authStore';
 import Modal from './Modal';
 import { setCookie } from 'cookies/cookies';
 
-function LoginModal({ onClose, onLogin }) {
+function LoginModal({ onClose }) {
   // const router = useNavigate();
   const [id, setId] = useState('');
   const [password, setPassword] = useState('');
@@ -20,19 +20,27 @@ function LoginModal({ onClose, onLogin }) {
     setPassword(e.target.value);
   };
   const loginSuccess = (response) => {
+    // Todo: 토큰, 유저정보 안넘어옴
+    console.log(
+      response,
+      'Todo::유저정보 안넘어옴 수정사항',
+    );
     const {
       token,
       userId,
-      isReporter,
+      role,
       email,
       nickname,
     } = response;
     console.log(response, 'response');
 
     setCookie('token', token, {});
-    useAuthStore
-      .getState()
-      .login(userId, isReporter, email, nickname);
+    useAuthStore.getState().login({
+      userId,
+      isReporter: role === 'REPORTER',
+      email,
+      nickname,
+    });
   };
 
   const [isSuccess, setIsSuccess] =

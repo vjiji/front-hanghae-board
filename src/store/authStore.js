@@ -3,17 +3,16 @@ import { create } from 'zustand';
 const useAuthStore = create((set) => ({
   // 초기 상태
   userId: null,
-  isReporter: null,
+  isReporter: false,
   email: null,
   nickname: null,
   // 로그인 상태
-  login: (
+  login: ({
     userId,
     isReporter,
     email,
     nickname,
-  ) => {
-    console.log(userId, 'redux');
+  }) => {
     set(() => ({
       userId,
       isReporter,
@@ -25,7 +24,7 @@ const useAuthStore = create((set) => ({
   logout: () => {
     set(() => ({
       userId: null,
-      isReporter: null,
+      isReporter: false,
       email: null,
       nickname: null,
     }));
