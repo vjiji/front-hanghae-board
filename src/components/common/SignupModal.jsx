@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import Button from 'components/common/Button';
-// import Input from 'components/common/Input';
+import Input from 'components/common/Input';
 import { signup } from 'apis/login';
-// import Modal from './Modal';
+import Modal from './Modal';
 
 const SignupModal = () => {
   const [isReporter, setIsReporter] =
@@ -15,8 +15,8 @@ const SignupModal = () => {
     useState('');
 
   // 회원가입 성공 모달
-  // const [successModal, setSuccessModal] =
-  //   useState(true);
+  const [successModal, setSuccessModal] =
+    useState(false);
 
   const handleSignup = async () => {
     try {
@@ -28,7 +28,7 @@ const SignupModal = () => {
         adminToken,
       );
       console.log(response);
-      // setSuccessModal(true);
+      setSuccessModal(true);
     } catch (error) {
       console.log(error);
     }
@@ -53,7 +53,7 @@ const SignupModal = () => {
       </UserBlock>
       <InputBlock>
         <h2>이메일*</h2>
-        <input
+        <Input
           placeholder="email"
           value={email}
           onChange={(e) =>
@@ -63,7 +63,7 @@ const SignupModal = () => {
       </InputBlock>
       <InputBlock>
         <h2>닉네임*</h2>
-        <input
+        <Input
           placeholder="닉네임"
           value={nickname}
           onChange={(e) =>
@@ -73,7 +73,7 @@ const SignupModal = () => {
       </InputBlock>
       <InputBlock>
         <h2>비밀번호*</h2>
-        <input
+        <Input
           placeholder="비밀번호"
           type="password"
           value={password}
@@ -85,7 +85,7 @@ const SignupModal = () => {
       {isReporter && (
         <InputBlock>
           <h2>인증키*</h2>
-          <input
+          <Input
             placeholder="인증키"
             type="text"
             value={adminToken}
@@ -98,6 +98,15 @@ const SignupModal = () => {
       <Button onClick={handleSignup}>
         회원가입
       </Button>
+      <Modal
+        isOpen={successModal}
+        onClose={() => setSuccessModal(false)}
+      >
+        <div>
+          <h2>회원가입을 성공!</h2>
+          <Button>확인</Button>
+        </div>
+      </Modal>
     </>
   );
 };
