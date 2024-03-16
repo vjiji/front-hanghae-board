@@ -1,10 +1,10 @@
 import styled from 'styled-components';
-import Input from 'components/common/Input';
 import Select from 'components/common/Select';
 import { POST_CATEGORY } from 'constants/sharedConstants';
 import icon from 'assets/upload-image-icon.svg';
 import { useNavigate } from 'react-router-dom';
 import Button from 'components/common/Button';
+import RefInput from 'components/common/RefInput';
 
 const PostForm = ({
   formName,
@@ -21,33 +21,43 @@ const PostForm = ({
     setValue('category', name);
   };
   const files = watch('files');
+  const categorys = watch('category');
 
   return (
     <FormLayout onSubmit={handleSubmit}>
       <h1>{formName}</h1>
-      <Select
-        options={POST_CATEGORY}
-        handleOptionSelect={handleCategorySelect}
-        {...register('category', {
-          required: '카테고리를 선택해주세요',
-        })}
-      />
-      {errors.category && errors.category.message}
-      <Input
-        placeholder={'뉴스 제목을 입력하세요.'}
-        width="360px"
-        {...register('title', {
-          required: '뉴스 제목을 입력해주세요',
-        })}
-      />
-      {errors.title && errors.title.message}
-      <textarea
-        placeholder="뉴스 내용을 입력하세요"
-        {...register('contents', {
-          required: '뉴스 내용을 입력해주세요',
-        })}
-      />
-      {errors.contents && errors.contents.message}
+      <FieldBox>
+        <Select
+          options={POST_CATEGORY}
+          handleOptionSelect={
+            handleCategorySelect
+          }
+          {...register('category', {
+            required: '카테고리를 선택해주세요',
+          })}
+        />
+        {!categorys && errors.category?.message}
+      </FieldBox>
+      <FieldBox>
+        <RefInput
+          placeholder={'뉴스 제목을 입력하세요.'}
+          width="360px"
+          {...register('title', {
+            required: '뉴스 제목을 입력해주세요',
+          })}
+        />
+        {errors.title && errors.title.message}
+      </FieldBox>
+      <FieldBox>
+        <textarea
+          placeholder="뉴스 내용을 입력하세요"
+          {...register('contents', {
+            required: '뉴스 내용을 입력해주세요',
+          })}
+        />
+        {errors.contents &&
+          errors.contents.message}
+      </FieldBox>
 
       <Label htmlFor="image-input">
         <img src={icon} />
@@ -90,16 +100,6 @@ const FormLayout = styled.form`
     font-weight: bold;
   }
 
-  select {
-    width: 360px;
-    height: 60px;
-    padding: 0 20px;
-    font-size: 18px;
-    border: none;
-    border-bottom: 2px solid #666;
-    color: #bababa;
-  }
-
   textarea {
     height: 600px;
     padding: 23px 20px;
@@ -116,6 +116,12 @@ const FormLayout = styled.form`
       outline-color: #666;
     }
   }
+`;
+
+const FieldBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 `;
 
 const Label = styled.label`
@@ -135,4 +141,8 @@ const ButtonBox = styled.div`
   display: flex;
   justify-content: flex-end;
   gap: 14px;
+
+  p {
+    color: red;
+  }
 `;

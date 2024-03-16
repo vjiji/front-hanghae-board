@@ -48,7 +48,7 @@ const Comment = ({ commentList, id }) => {
     e.preventDefault();
   };
   const handleAddComment = () => {
-    mutate(newComment, id);
+    mutate({ comment: newComment }, id);
   };
 
   const handleDelComment = () => {
