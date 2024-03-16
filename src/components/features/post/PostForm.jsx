@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import Select from 'components/common/Select';
-import { POST_CATEGORY } from 'constants/sharedConstants';
+import { CATEGORY_VALUE } from 'constants/sharedConstants';
 import icon from 'assets/upload-image-icon.svg';
 import { useNavigate } from 'react-router-dom';
 import Button from 'components/common/Button';
@@ -28,7 +28,7 @@ const PostForm = ({
       <h1>{formName}</h1>
       <FieldBox>
         <Select
-          options={POST_CATEGORY}
+          options={CATEGORY_VALUE}
           handleOptionSelect={
             handleCategorySelect
           }
