@@ -12,6 +12,6 @@ baseURL.interceptors.request.use((config) => {
   //     `Bearer ${token}`;
   // }
   config.headers['Authorization'] =
-    `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MTIzQHRlc3QuY29tIiwiYXV0aCI6IlJFUE9SVEVSIiwiZXhwIjoxNzQ2NTE3OTI1LCJpYXQiOjE3MTA1MTc5MjV9.PoWzaQWDF4EdMJ_SJFo28kAPRRvlq_EyILoOvI16UTE`;
+    `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkeW9uZzEyNTZAdGVzdC5jb20iLCJhdXRoIjoiUkVQT1JURVIiLCJleHAiOjE3MTA5NTkwMjgsImlhdCI6MTcxMDU5OTAyOH0.f9P5xj-attsHfU_UJMtFff97MjMSQy1v0al9CDBs2PI`;
   return config;
 });

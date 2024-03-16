@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://3.36.64.254:8080',
+  baseURL: 'http://3.36.56.100:8080',
 });
 
 // 회원가입 요청

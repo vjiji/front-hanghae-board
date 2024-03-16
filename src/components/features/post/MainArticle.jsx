@@ -1,26 +1,46 @@
+import { useQuery } from '@tanstack/react-query';
+import postsAPI from 'apis/postsAPI';
+// import { getPostDetail } from 'pages/PostDetail';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 const MainArticle = () => {
+  const getPostAll = async (post) => {
+    const { data } =
+      await postsAPI.getPostAll(post);
+    return data.data;
+  };
+
+  const { data: post } = useQuery({
+    queryKey: ['getPost'],
+    queryFn: () => getPostAll(post),
+  });
+
+  if (!post) {
+    return null;
+  }
   return (
     <MainArticleWrap>
       <ArticleTop>
-        <WeeklyArticle to="/">
-          <div>
-            <h2>
-              &#34;항햐99 과연 이대로
-              괜찮은가...&#34;
-            </h2>
-            <Editor>
-              <span>이은미 기자</span>
-              <span>88,000</span>
-            </Editor>
-          </div>
-          <ImgWrap>
-            <img src="" alt="" />
-          </ImgWrap>
-        </WeeklyArticle>
+        {post.map((post) => {
+          return (
+            <WeeklyArticle to="/" key={post.id}>
+              <div>
+                <h2>&#34;{post.title}&#34;</h2>
+                <Editor>
+                  <span>
+                    {post.nickname} 기자
+                  </span>
+                  <span>88,000</span>
+                </Editor>
+              </div>
+              <ImgWrap>
+                <img src="" alt="" />
+              </ImgWrap>
+            </WeeklyArticle>
+          );
+        })}
         <HotArticle to="/">
           <ImgWrap>
             <img src="" alt="" />
