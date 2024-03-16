@@ -20,13 +20,18 @@ const Header = () => {
     useState('');
   const [isLogin, setIsLogin] = useState(false);
 
-  //로고 클릭
+  //로고 클릭 이동
   const handleLogoClick = () => {
-    localStorage.setItem(
-      'category',
-      POST_CATEGORY.DEFAULT,
-    );
+    localStorage.setItem('category', null);
     navigate('/');
+  };
+  // 뉴스 작성하기 이동
+  const handleGoToNewPost = () => {
+    navigate('/newpost');
+  };
+  // 카테고리 클릭 이동
+  const handleCategoryClick = (categoryKey) => {
+    localStorage.setItem('category', categoryKey);
   };
   // 로그인 처리
   const handleLoginSuccess = () => {
@@ -55,8 +60,9 @@ const Header = () => {
     const handleSearch = () => {
       onClose();
       navigate(
+        // 검색 결과 페이지로 이동
         `/search/${encodeURIComponent(searchTerm)}`,
-      ); // 검색 결과 페이지로 이동
+      );
     };
     // 스타일
     return (
@@ -114,7 +120,9 @@ const Header = () => {
         <Section>
           <NewsAction>
             <img src={PenIcon} alt="작성"></img>
-            <News>뉴스 작성하기</News>
+            <News onClick={handleGoToNewPost} ya>
+              뉴스 작성하기
+            </News>
           </NewsAction>
           <Logo onClick={handleLogoClick}>
             항해보드
@@ -152,12 +160,18 @@ const Header = () => {
           </UserActions>
         </Section>
         <Nav>
-          <NavItem href="#">정치</NavItem>
-          <NavItem href="#">경제</NavItem>
-          <NavItem href="#">사회</NavItem>
-          <NavItem href="#">생활문화</NavItem>
-          <NavItem href="#">세계</NavItem>
-          <NavItem href="#">IT</NavItem>
+          {Object.entries(POST_CATEGORY).map(
+            ([key, value]) => (
+              <NavItem
+                key={key}
+                onClick={() =>
+                  handleCategoryClick(key)
+                }
+              >
+                {value}
+              </NavItem>
+            ),
+          )}
         </Nav>
       </HeaderContainer>
       <Modal
@@ -243,6 +257,7 @@ const NavItem = styled.a`
   font-size: 16px;
   color: #666;
   text-decoration: none;
+  cursor: pointer;
   &:hover {
     text-decoration: underline;
     color: #000;
