@@ -18,7 +18,6 @@ const Header = () => {
     useState(false);
   const [modalContent, setModalContent] =
     useState('');
-  const [isLogin, setIsLogin] = useState(false);
 
   //로고 클릭
   const handleLogoClick = () => {
@@ -30,7 +29,6 @@ const Header = () => {
   };
   // 로그인 처리
   const handleLoginSuccess = () => {
-    setIsLogin(true);
     closeModal();
   };
 
@@ -83,7 +81,7 @@ const Header = () => {
 
   // 로그아웃 처리
   const logout = () => {
-    setIsLogin(false);
+    //토큰 삭제, 유저정보 스토어 삭제
   };
 
   const renderModal = () => {
@@ -120,30 +118,28 @@ const Header = () => {
             항해보드
           </Logo>
           <UserActions>
-            {isLogin ? (
+            {/* {isLogin ? (
               // 로그인 상태일 때
               <CustomLink onClick={logout}>
                 로그아웃
               </CustomLink>
             ) : (
-              // 로그인 상태가 아닐 때
-              <>
-                <CustomLink
-                  onClick={() =>
-                    openModal('login')
-                  }
-                >
-                  로그인
-                </CustomLink>
-                <CustomLink
-                  onClick={() =>
-                    openModal('signup')
-                  }
-                >
-                  회원가입
-                </CustomLink>
-              </>
-            )}
+              // 로그인 상태가 아닐 때 */}
+            <>
+              <CustomLink
+                onClick={() => openModal('login')}
+              >
+                로그인
+              </CustomLink>
+              <CustomLink
+                onClick={() =>
+                  openModal('signup')
+                }
+              >
+                회원가입
+              </CustomLink>
+            </>
+            {/* )} */}
             <img
               src={SearchIcon}
               alt="검색"

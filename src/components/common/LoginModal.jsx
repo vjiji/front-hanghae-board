@@ -5,6 +5,7 @@ import Input from 'components/common/Input';
 // import { useNavigate } from 'react-router-dom';
 import { login } from 'apis/login';
 import useAuthStore from 'store/authStore';
+import Modal from './Modal';
 
 function LoginModal({ onClose, onLogin }) {
   // const router = useNavigate();
@@ -17,7 +18,7 @@ function LoginModal({ onClose, onLogin }) {
   const onChangePW = (e) => {
     setPassword(e.target.value);
   };
-  const LoginSuccess = (response) => {
+  const loginSuccess = (response) => {
     const {
       token,
       userId,
@@ -36,29 +37,34 @@ function LoginModal({ onClose, onLogin }) {
       );
   };
 
+  const [isSuccess, setIsSuccess] =
+    useState(false);
+  const [message, setMessage] = useState('');
+
   const onClickLogin = async () => {
     try {
       const response = await login(id, password);
       console.log(response);
-      alert('로그인에 성공하였습니다!');
-      LoginSuccess(response);
-      if (onLogin) {
-        onLogin(response);
-      }
-      onClose();
+      setIsSuccess(true);
+      setMessage('로그인에 성공하였습니다!');
+      loginSuccess(response);
     } catch (error) {
       console.error('Login error', error);
-      alert(
+      setMessage(
         '로그인에 실패하였습니다. 다시 시도해주세요.',
       );
     }
-
     setId('');
     setPassword('');
   };
 
   const [isReporter, setIsReporter] =
     useState(false);
+
+  const handleModalButtonClick = () => {
+    setMessage('');
+    isSuccess && onClose();
+  };
 
   return (
     <>
@@ -98,6 +104,19 @@ function LoginModal({ onClose, onLogin }) {
       <Button onClick={onClickLogin}>
         로그인
       </Button>
+      <Modal
+        isOpen={message}
+        onClose={handleModalButtonClick}
+      >
+        <InnerModalLayout>
+          <h2>{message}</h2>
+          <Button
+            onClick={handleModalButtonClick}
+          >
+            확인
+          </Button>
+        </InnerModalLayout>
+      </Modal>
     </>
   );
 }
@@ -129,4 +148,8 @@ const TabBtn = styled.button`
   font-size: 14px;
   font-weight: ${(props) =>
     props.$active ? 'bold' : 'normal'};
+`;
+
+const InnerModalLayout = styled.div`
+  text-align: center;
 `;
