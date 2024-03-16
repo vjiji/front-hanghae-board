@@ -1,22 +1,37 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import SearchIcon from 'icons/Search-icon.svg';
 import PenIcon from 'icons/mdi_pen.svg';
 import Modal from 'components/common/Modal';
 import LoginModal from 'components/common/LoginModal';
 import SignupModal from 'components/common/SignupModal';
+import Button, {
+  StyledCloseButton,
+} from 'components/common/Button';
+import Input from 'components/common/Input';
+import { POST_CATEGORY } from 'constants/sharedConstants';
 
 const Header = () => {
+  const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] =
     useState(false);
   const [modalContent, setModalContent] =
     useState('');
   const [isLogin, setIsLogin] = useState(false);
 
+  //로고 클릭
+  const handleLogoClick = () => {
+    localStorage.setItem(
+      'category',
+      POST_CATEGORY.DEFAULT,
+    );
+    navigate('/');
+  };
   // 로그인 처리
   const handleLoginSuccess = () => {
-    setIsLogin(true); // 로그인 상태를 true로 변경
-    closeModal(); // 모달 닫기
+    setIsLogin(true);
+    closeModal();
   };
 
   // 로그인 또는 회원가입 모달 열기
@@ -28,6 +43,42 @@ const Header = () => {
   // 모달 닫기
   const closeModal = () => {
     setIsModalOpen(false);
+  };
+
+  // SearchModal 검색모달
+  const SearchModal = ({ onClose }) => {
+    // 검색어
+    const [searchTerm, setSearchTerm] =
+      useState('');
+    const navigate = useNavigate();
+
+    const handleSearch = () => {
+      onClose();
+      navigate(
+        `/search/${encodeURIComponent(searchTerm)}`,
+      ); // 검색 결과 페이지로 이동
+    };
+    // 스타일
+    return (
+      <SearchContainer>
+        <StyledCloseButton onClick={onClose} />
+        <StyledH1>검색 하기!</StyledH1>
+        <Input
+          type="text"
+          placeholder="검색어를 입력하세요"
+          value={searchTerm}
+          onChange={(e) =>
+            setSearchTerm(e.target.value)
+          }
+        />
+        <Button
+          value="검색"
+          handleClickButton={handleSearch}
+        >
+          검색
+        </Button>
+      </SearchContainer>
+    );
   };
 
   // 로그아웃 처리
@@ -48,6 +99,10 @@ const Header = () => {
         return (
           <SignupModal onClose={closeModal} />
         );
+      case 'search':
+        return (
+          <SearchModal onClose={closeModal} />
+        );
       default:
         return null;
     }
@@ -61,7 +116,9 @@ const Header = () => {
             <img src={PenIcon} alt="작성"></img>
             <News>뉴스 작성하기</News>
           </NewsAction>
-          <Logo>항해보드</Logo>
+          <Logo onClick={handleLogoClick}>
+            항해보드
+          </Logo>
           <UserActions>
             {isLogin ? (
               // 로그인 상태일 때
@@ -87,7 +144,11 @@ const Header = () => {
                 </CustomLink>
               </>
             )}
-            <img src={SearchIcon} alt="검색" />
+            <img
+              src={SearchIcon}
+              alt="검색"
+              onClick={() => openModal('search')}
+            />
           </UserActions>
         </Section>
         <Nav>
@@ -99,6 +160,12 @@ const Header = () => {
           <NavItem href="#">IT</NavItem>
         </Nav>
       </HeaderContainer>
+      <Modal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+      >
+        {renderModal()}
+      </Modal>
       <Modal
         isOpen={isModalOpen}
         onClose={closeModal}
@@ -183,4 +250,15 @@ const NavItem = styled.a`
 `;
 const CustomLink = styled.a`
   cursor: pointer;
+`;
+
+const SearchContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+const StyledH1 = styled.h1`
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 30px;
 `;
