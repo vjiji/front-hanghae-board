@@ -1,10 +1,6 @@
-import axios from 'axios';
-
-const api = axios.create({
-  baseURL: 'http://3.36.56.100:8080',
-});
-
 // 회원가입 요청
+
+import { baseURL } from './instance';
 
 export const signup = async (
   email,
@@ -13,7 +9,7 @@ export const signup = async (
   adminToken = '',
 ) => {
   try {
-    const response = await api.post(
+    const response = await baseURL.post(
       '/api/user/signup',
       {
         email,
@@ -33,7 +29,7 @@ export const signup = async (
 
 export const login = async (email, password) => {
   try {
-    const response = await api.post(
+    const response = await baseURL.post(
       '/api/user/login',
       {
         email,
@@ -50,11 +46,14 @@ export const login = async (email, password) => {
 // 회원정보 조회
 export const getUserInfo = async (token) => {
   try {
-    const response = await api.get('/api/auth', {
-      headers: {
-        Authorization: `Bearer ${token}`,
+    const response = await baseURL.get(
+      '/api/auth',
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       },
-    });
+    );
     return response.data;
   } catch (error) {
     console.error(
