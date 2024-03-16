@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import Button from 'components/common/Button';
 // import Input from 'components/common/Input';
 import { signup } from 'apis/login';
-import Modal from './Modal';
+// import Modal from './Modal';
 
 const SignupModal = () => {
   const [isReporter, setIsReporter] =
@@ -16,7 +16,7 @@ const SignupModal = () => {
 
   // 회원가입 성공 모달
   // const [successModal, setSuccessModal] =
-  //   useState(false);
+  //   useState(true);
 
   const handleSignup = async () => {
     try {
@@ -98,7 +98,6 @@ const SignupModal = () => {
       <Button onClick={handleSignup}>
         회원가입
       </Button>
-      <Modal></Modal>
     </>
   );
 };
