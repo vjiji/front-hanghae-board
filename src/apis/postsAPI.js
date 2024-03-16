@@ -9,6 +9,12 @@ const postsAPI = {
     baseURL.post(`/api/posts/${id}`, post),
   deletePost: (id) =>
     baseURL.delete(`/api/posts/${id}`),
+  getPostsByTab: (tab, category) =>
+    baseURL.get(
+      category
+        ? `/api/posts/category/${category}/${tab}`
+        : `/api/posts/${tab}`,
+    ),
 };
 
 export default postsAPI;
