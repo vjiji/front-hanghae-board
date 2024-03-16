@@ -14,3 +14,16 @@ for (let key in POST_CATEGORY) {
   CATEGORY_KEY.push(key);
   CATEGORY_VALUE.push(POST_CATEGORY[key]);
 }
+
+export const TAB_NAME = {
+  new: '최신',
+  hot: 'HOT 이슈',
+};
+
+export const POST_TAB_DISPLAY_NAME = [];
+export const POST_TAB_KEY = [];
+
+for (let key in TAB_NAME) {
+  POST_TAB_KEY.push(key);
+  POST_TAB_DISPLAY_NAME.push(TAB_NAME[key]);
+}
