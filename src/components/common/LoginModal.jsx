@@ -5,8 +5,10 @@ import Input from 'components/common/Input';
 // import { useNavigate } from 'react-router-dom';
 import { login } from 'apis/login';
 import useAuthStore from 'store/authStore';
+import Modal from './Modal';
+import { setCookie } from 'cookies/cookies';
 
-function LoginModal({ onClose, onLogin }) {
+function LoginModal({ onClose }) {
   // const router = useNavigate();
   const [id, setId] = useState('');
   const [password, setPassword] = useState('');
@@ -17,48 +19,64 @@ function LoginModal({ onClose, onLogin }) {
   const onChangePW = (e) => {
     setPassword(e.target.value);
   };
-  const LoginSuccess = (response) => {
+  const loginSuccess = (response) => {
+    // Todo: 토큰, 유저정보 안넘어옴
+    console.log(
+      response,
+      'Todo::유저정보 안넘어옴 수정사항',
+    );
     const {
       token,
       userId,
-      isReporter,
+      role,
       email,
       nickname,
     } = response;
-    useAuthStore
-      .getState()
-      .login(
-        token,
-        userId,
-        isReporter,
-        email,
-        nickname,
-      );
+    // console.log(response, 'response');
+
+    setCookie('token', token, {});
+    useAuthStore.getState().login({
+      userId,
+      isReporter: role === 'REPORTER',
+      email,
+      nickname,
+    });
   };
 
+  const [isSuccess, setIsSuccess] =
+    useState(false);
+  const [message, setMessage] = useState('');
+
   const onClickLogin = async () => {
+    if (
+      !id.trim().length ||
+      !password.trim().length
+    ) {
+      setMessage('모든 항목을 입력해주세요!');
+      return;
+    }
     try {
       const response = await login(id, password);
-      console.log(response);
-      alert('로그인에 성공하였습니다!');
-      LoginSuccess(response);
-      if (onLogin) {
-        onLogin(response);
-      }
-      onClose();
+      console.log(response, '서버response');
+      setIsSuccess(true);
+      setMessage('로그인에 성공하였습니다!');
+      loginSuccess(response);
+      // Todo: 토큰, 유저정보 안넘어옴
     } catch (error) {
       console.error('Login error', error);
-      alert(
-        '로그인에 실패하였습니다. 다시 시도해주세요.',
-      );
+      setMessage(error.response.data.message);
     }
-
     setId('');
     setPassword('');
   };
 
   const [isReporter, setIsReporter] =
     useState(false);
+
+  const handleModalButtonClick = () => {
+    setMessage('');
+    isSuccess && onClose();
+  };
 
   return (
     <>
@@ -98,6 +116,19 @@ function LoginModal({ onClose, onLogin }) {
       <Button onClick={onClickLogin}>
         로그인
       </Button>
+      <Modal
+        isOpen={message}
+        onClose={handleModalButtonClick}
+      >
+        <InnerModalLayout>
+          <h2>{message}</h2>
+          <Button
+            onClick={handleModalButtonClick}
+          >
+            확인
+          </Button>
+        </InnerModalLayout>
+      </Modal>
     </>
   );
 }
@@ -129,4 +160,8 @@ const TabBtn = styled.button`
   font-size: 14px;
   font-weight: ${(props) =>
     props.$active ? 'bold' : 'normal'};
+`;
+
+const InnerModalLayout = styled.div`
+  text-align: center;
 `;
