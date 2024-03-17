@@ -13,6 +13,8 @@ import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import postsAPI from 'apis/postsAPI';
 import { convertFormForRequest } from 'utils/convertFormDataForRequest';
+import { POST_CATEGORY } from 'constants/sharedConstants';
+import { getCategoryKey } from 'utils/getCategoryKey';
 
 const updatePost = async ({ post, postId }) => {
   const { data } = await postsAPI.updatePost(
@@ -58,7 +60,10 @@ const PostEdit = () => {
 
   const handleGetPostSuccess = () => {
     setValue('title', post.title);
-    setValue('category', post.category);
+    setValue(
+      'category',
+      POST_CATEGORY[post.category],
+    );
     setValue('contents', post.contents);
   };
 
@@ -66,6 +71,9 @@ const PostEdit = () => {
     const formData = convertFormForRequest(
       {
         ...form,
+        category: getCategoryKey(
+          form['category'],
+        ),
         imgId: post.postImageList[0]?.id,
       },
       'updatePostRequestDto',

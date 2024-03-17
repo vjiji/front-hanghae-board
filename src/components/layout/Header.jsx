@@ -10,6 +10,8 @@ import Button, {
   StyledCloseButton,
 } from 'components/common/Button';
 import Input from 'components/common/Input';
+import useAuthStore from 'store/authStore';
+import { removeCookie } from 'cookies/cookies';
 
 const Header = () => {
   const navigate = useNavigate();
@@ -17,17 +19,15 @@ const Header = () => {
     useState(false);
   const [modalContent, setModalContent] =
     useState('');
-  const [isLogin, setIsLogin] = useState(false);
+
+  const { userId } = useAuthStore();
+
+  console.log(userId);
 
   //로고 클릭
   const handleLogoClick = () => {
     localStorage.setItem('category', '');
     navigate('/');
-  };
-  // 로그인 처리
-  const handleLoginSuccess = () => {
-    setIsLogin(true);
-    closeModal();
   };
 
   // 로그인 또는 회원가입 모달 열기
@@ -79,17 +79,16 @@ const Header = () => {
 
   // 로그아웃 처리
   const logout = () => {
-    setIsLogin(false);
+    console.log('test');
+    removeCookie('token');
+    useAuthStore.getState().logout();
   };
 
   const renderModal = () => {
     switch (modalContent) {
       case 'login':
         return (
-          <LoginModal
-            onClose={closeModal}
-            onLogin={handleLoginSuccess}
-          />
+          <LoginModal onClose={closeModal} />
         );
       case 'signup':
         return (
@@ -116,7 +115,7 @@ const Header = () => {
             항해보드
           </Logo>
           <UserActions>
-            {isLogin ? (
+            {userId ? (
               // 로그인 상태일 때
               <CustomLink onClick={logout}>
                 로그아웃

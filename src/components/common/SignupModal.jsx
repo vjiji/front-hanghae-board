@@ -5,7 +5,7 @@ import Input from 'components/common/Input';
 import { signup } from 'apis/login';
 import Modal from './Modal';
 
-const SignupModal = () => {
+const SignupModal = ({ onClose }) => {
   const [isReporter, setIsReporter] =
     useState(false);
   const [email, setEmail] = useState('');
@@ -15,23 +15,50 @@ const SignupModal = () => {
     useState('');
 
   // 회원가입 성공 모달
-  const [successModal, setSuccessModal] =
+  const [isSuccess, setIsSuccess] =
     useState(false);
+  const [isModal, setIsModal] = useState(false);
+  const [message, setMessage] = useState('');
+
+  const handleModalButtonClick = () => {
+    setIsModal(false);
+    if (isSuccess) {
+      onClose();
+      // setMessage('');
+    }
+  };
 
   const handleSignup = async () => {
+    if (
+      !email.trim().length ||
+      !password.trim().length ||
+      !nickname.trim().length
+    ) {
+      setMessage({
+        message: '모든 항목을 입력해주세요!',
+      });
+      setIsModal(true);
+
+      return;
+    }
     try {
-      //회원가입 aip 호출
-      const response = await signup(
+      //회원가입 api 호출
+      const { response } = await signup(
         email,
         password,
         nickname,
         adminToken,
       );
-      console.log(response);
-      setSuccessModal(true);
+      console.log(response, ':: 서버 response');
+      setIsSuccess(true);
+      setMessage({ message: '회원가입 성공!' });
+      setIsModal(true);
     } catch (error) {
-      console.log(error);
-      alert('회원가입에 실패하였습니다!');
+      setMessage({
+        message: '회원가입 실패!',
+        ...error.response.data,
+      });
+      setIsModal(true);
     }
   };
 
@@ -61,6 +88,9 @@ const SignupModal = () => {
             setEmail(e.target.value)
           }
         />
+        <p className="modal-message">
+          {message.email ?? ''}
+        </p>
       </InputBlock>
       <InputBlock>
         <h2>닉네임*</h2>
@@ -71,6 +101,9 @@ const SignupModal = () => {
             setNickname(e.target.value)
           }
         />
+        <p className="modal-message">
+          {message.nickname ?? ''}
+        </p>
       </InputBlock>
       <InputBlock>
         <h2>비밀번호*</h2>
@@ -82,6 +115,9 @@ const SignupModal = () => {
             setPassword(e.target.value)
           }
         />
+        <p className="modal-message">
+          {message.password ?? ''}
+        </p>
       </InputBlock>
       {isReporter && (
         <InputBlock>
@@ -100,13 +136,17 @@ const SignupModal = () => {
         회원가입
       </Button>
       <Modal
-        isOpen={successModal}
-        onClose={() => setSuccessModal(false)}
+        isOpen={isModal}
+        onClose={handleModalButtonClick}
       >
-        <div>
-          <h2>회원가입을 성공!</h2>
-          <Button>확인</Button>
-        </div>
+        <InnerModalLayout>
+          <h2>{message.message}</h2>
+          <Button
+            onClick={handleModalButtonClick}
+          >
+            확인
+          </Button>
+        </InnerModalLayout>
       </Modal>
     </>
   );
@@ -123,9 +163,16 @@ const Title = styled.div`
 const InputBlock = styled.div`
   width: 100%;
   margin-bottom: 20px;
+
   input {
     margin-top: 5px;
     width: 100%;
+  }
+
+  .modal-message {
+    color: red;
+    margin-top: 5px;
+    font-size: 12px;
   }
 `;
 
@@ -139,4 +186,8 @@ const TabBtn = styled.button`
   font-size: 14px;
   font-weight: ${(props) =>
     props.$active ? 'bold' : 'normal'};
+`;
+
+const InnerModalLayout = styled.div`
+  text-align: center;
 `;

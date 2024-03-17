@@ -5,6 +5,7 @@ import postsAPI from 'apis/postsAPI';
 import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { convertFormForRequest } from 'utils/convertFormDataForRequest';
+import { getCategoryKey } from 'utils/getCategoryKey';
 
 const createPost = async (post) => {
   const { data } =
@@ -38,7 +39,12 @@ const NewPost = () => {
 
   const handlePost = (form) => {
     const formData = convertFormForRequest(
-      form,
+      {
+        ...form,
+        category: getCategoryKey(
+          form['category'],
+        ),
+      },
       'createPostRequestDto',
     );
 
