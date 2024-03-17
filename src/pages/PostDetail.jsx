@@ -19,7 +19,7 @@ const deletePost = async (postId) => {
 export const getPostDetail = async (id) => {
   const { data } =
     await postsAPI.getPostDetail(id);
-  return data.data;
+  return data.data.first;
 };
 
 const PostDetail = () => {

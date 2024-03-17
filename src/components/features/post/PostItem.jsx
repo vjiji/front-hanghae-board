@@ -4,21 +4,29 @@ import styled from 'styled-components';
 
 const PostItem = ({ post }) => {
   const {
+    id,
     nickname,
     title,
     category,
     contnents,
     postImage,
   } = post;
+
   return (
     <ListItem>
-      <Link to="">
-        <ImgWrap>
+      <Link to={`/posts/${id}`}>
+        {/* <ImgWrap>
           <img
             src={postImage?.url}
             alt={postImage?.imageName}
           />
-        </ImgWrap>
+        </ImgWrap> */}
+        <ImgBox
+          $img={
+            postImage?.url ??
+            'https://github.com/pmndrs/zustand/raw/main/bear.jpg'
+          }
+        ></ImgBox>
         <InfoWrap>
           <em>{category}</em>
           <h3>{title}</h3>
@@ -47,7 +55,7 @@ const ImgWrap = styled.div`
   height: 280px;
 
   img {
-    width: 100%;
+    height: 100%;
   }
 `;
 const InfoWrap = styled.div`
@@ -71,4 +79,14 @@ const InfoWrap = styled.div`
   span + span {
     margin-top: auto;
   }
+`;
+
+const ImgBox = styled.div`
+  width: 100%;
+  height: 280px;
+  background-image: ${({ $img }) =>
+    `url(${$img})`};
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
 `;

@@ -34,7 +34,6 @@ const TabList = () => {
   const handleTabClick = (tabName) => {
     setActiveTab(tabName);
   };
-  console.log(posts);
 
   if (!posts) return null;
 
@@ -56,18 +55,20 @@ const TabList = () => {
             ),
           )}
         </TabBtns>
-        {posts.map(
-          ({ id, nickname, ...post }) => (
+        <ItemLayout>
+          {posts.responseDto.map((post) => (
             <PostItem
-              key={id + nickname}
+              key={post.id + post.nickname}
               post={post}
             />
-          ),
-        )}
+          ))}
+        </ItemLayout>
       </TabMenu>
     </>
   );
 };
+
+export default TabList;
 
 const TabMenu = styled.div`
   margin-top: 80px;
@@ -101,4 +102,8 @@ const TabBtn = styled.button`
     `}
 `;
 
-export default TabList;
+const ItemLayout = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+`;
