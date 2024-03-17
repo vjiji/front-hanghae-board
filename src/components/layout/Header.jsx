@@ -21,19 +21,26 @@ const Header = () => {
   const [modalContent, setModalContent] =
     useState('');
 
-  const { userId } = useAuthStore();
+  const { userId, isReporter } = useAuthStore();
 
   console.log(userId);
+
+  // 뉴스 작성하기 이동
+  const handleGoToNewPost = () => {
+    if (isReporter) {
+      navigate('/newpost');
+    } else {
+      openModal('notReporter');
+    }
+    navigate('/newpost');
+  };
 
   //로고 클릭 이동
   const handleLogoClick = () => {
     localStorage.setItem('category', '');
     navigate('/');
   };
-  // 뉴스 작성하기 이동
-  const handleGoToNewPost = () => {
-    navigate('/newpost');
-  };
+
   // 카테고리 클릭 이동
   const handleCategoryClick = (categoryKey) => {
     localStorage.setItem('category', categoryKey);
@@ -113,6 +120,21 @@ const Header = () => {
         return (
           <SearchModal onClose={closeModal} />
         );
+      case 'notReporter':
+        // 기자가 아닐 때 표시할 모달 내용
+        return (
+          <>
+            <h1>작성하기는 기자만 가능합니다!</h1>
+            <Button
+              onClick={() => {
+                closeModal();
+                navigate('/');
+              }}
+            >
+              돌아가기
+            </Button>
+          </>
+        );
       default:
         return null;
     }
@@ -178,6 +200,12 @@ const Header = () => {
           )}
         </Nav>
       </HeaderContainer>
+      <Modal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+      >
+        {renderModal()}
+      </Modal>
       <Modal
         isOpen={isModalOpen}
         onClose={closeModal}
