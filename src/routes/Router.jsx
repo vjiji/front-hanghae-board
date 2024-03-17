@@ -8,6 +8,7 @@ import Main from 'pages/Main';
 import NewPost from 'pages/NewPost';
 import PostDetail from 'pages/PostDetail';
 import PostEdit from 'pages/PostEdit';
+import Search from 'pages/Search';
 
 const Router = () => {
   return (
@@ -26,6 +27,10 @@ const Router = () => {
           <Route
             path="/editpost/:id"
             element={<PostEdit />}
+          />
+          <Route
+            path="/search/:searchTerm"
+            element={<Search />}
           />
         </Route>
       </Routes>

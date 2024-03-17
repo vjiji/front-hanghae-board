@@ -1,28 +1,26 @@
-import React from 'react';
-import { useLocation } from 'react-router-dom';
+// import { useNavigate } from "react-router";
+import { useQuery } from '@tanstack/react-query';
+import postsAPI from 'apis/postsAPI';
+import { useParams } from 'react-router';
 
-function useQuery() {
-  return new URLSearchParams(
-    useLocation().search,
-  );
-}
-
-const SearchResultsPage = () => {
-  const query = useQuery();
-  const searchTerm = query.get('query');
-
-  // 여기서 searchTerm을 사용하여 검색 로직쓰기
-
-  //api 검색 호출로 검색 결과를 가져오고,
-  // 결과를 화면에 표시해야함
-
-  return (
-    <div>
-      <h1>검색 결과</h1>
-      <p>검색어: {searchTerm}</p>
-      {/* 검색 결과*/}
-    </div>
-  );
+const getPostsSearch = async (searchTerm) => {
+  const { data } =
+    await postsAPI.getPostsSearch(searchTerm);
+  console.log(data);
+  return data.data;
 };
 
-export default SearchResultsPage;
+const Search = () => {
+  const { searchTerm } = useParams();
+  // const navigate = useNavigate();
+  const { data: posts } = useQuery({
+    queryKey: ['postsSearch', searchTerm],
+    queryFn: () => getPostsSearch(searchTerm),
+    enabled: !!searchTerm,
+  });
+  if (!posts) return null;
+  return <div></div>;
+  //여기서 map사용해서 postltem들을 보여준다!
+};
+
+export default Search;

@@ -12,6 +12,7 @@ import Button, {
 import Input from 'components/common/Input';
 import useAuthStore from 'store/authStore';
 import { removeCookie } from 'cookies/cookies';
+import { POST_CATEGORY } from 'constants/sharedConstants';
 
 const Header = () => {
   const navigate = useNavigate();
@@ -24,11 +25,24 @@ const Header = () => {
 
   console.log(userId);
 
-  //로고 클릭
+  //로고 클릭 이동
   const handleLogoClick = () => {
     localStorage.setItem('category', '');
     navigate('/');
   };
+  // 뉴스 작성하기 이동
+  const handleGoToNewPost = () => {
+    navigate('/newpost');
+  };
+  // 카테고리 클릭 이동
+  const handleCategoryClick = (categoryKey) => {
+    localStorage.setItem('category', categoryKey);
+  };
+  // 로그인 처리
+  // const handleLoginSuccess = () => {
+  //   setIsLogin(true);
+  //   closeModal();
+  // };
 
   // 로그인 또는 회원가입 모달 열기
   const openModal = (content) => {
@@ -51,8 +65,9 @@ const Header = () => {
     const handleSearch = () => {
       onClose();
       navigate(
+        // 검색 결과 페이지로 이동
         `/search/${encodeURIComponent(searchTerm)}`,
-      ); // 검색 결과 페이지로 이동
+      );
     };
     // 스타일
     return (
@@ -109,7 +124,9 @@ const Header = () => {
         <Section>
           <NewsAction>
             <img src={PenIcon} alt="작성"></img>
-            <News>뉴스 작성하기</News>
+            <News onClick={handleGoToNewPost}>
+              뉴스 작성하기
+            </News>
           </NewsAction>
           <Logo onClick={handleLogoClick}>
             항해보드
@@ -147,12 +164,18 @@ const Header = () => {
           </UserActions>
         </Section>
         <Nav>
-          <NavItem href="#">정치</NavItem>
-          <NavItem href="#">경제</NavItem>
-          <NavItem href="#">사회</NavItem>
-          <NavItem href="#">생활문화</NavItem>
-          <NavItem href="#">세계</NavItem>
-          <NavItem href="#">IT</NavItem>
+          {Object.entries(POST_CATEGORY).map(
+            ([key, value]) => (
+              <NavItem
+                key={key}
+                onClick={() =>
+                  handleCategoryClick(key)
+                }
+              >
+                {value}
+              </NavItem>
+            ),
+          )}
         </Nav>
       </HeaderContainer>
       <Modal
@@ -238,6 +261,7 @@ const NavItem = styled.a`
   font-size: 16px;
   color: #666;
   text-decoration: none;
+  cursor: pointer;
   &:hover {
     text-decoration: underline;
     color: #000;
