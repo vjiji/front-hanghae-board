@@ -19,7 +19,7 @@ const deletePost = async (postId) => {
 export const getPostDetail = async (id) => {
   const { data } =
     await postsAPI.getPostDetail(id);
-  return data.data;
+  return data.data.first;
 };
 
 const PostDetail = () => {
@@ -60,7 +60,10 @@ const PostDetail = () => {
           </button>
         </ButtonBox>
       </TitleBox>
-      <p>{POST_CATEGORY[post.category]}</p>
+      <div className="post-detail__category-box">
+        <p>{POST_CATEGORY[post.category]}</p>
+        <strong>조회수 : {post.hit}</strong>
+      </div>
       <ImgBox>
         <img
           src={
@@ -71,9 +74,7 @@ const PostDetail = () => {
         />
       </ImgBox>
       <p>{post.contents}</p>
-      <p>
-        by. <strong>{post.nickname}</strong>
-      </p>
+
       <Comment
         id={post.id}
         commentList={post.commentList}
@@ -98,6 +99,11 @@ const PostDetailLayout = styled.div`
 
   strong {
     font-weight: bold;
+  }
+
+  .post-detail__category-box {
+    display: flex;
+    justify-content: space-between;
   }
 `;
 
