@@ -10,6 +10,7 @@ const PostItem = ({ post }) => {
     category,
     contnents,
     postImage,
+    hit,
   } = post;
 
   return (
@@ -32,7 +33,7 @@ const PostItem = ({ post }) => {
           <h3>{title}</h3>
           <p>{contnents}</p>
           <span>{nickname} 기자</span>
-          <span>994,999</span>
+          <span>조회수: {hit}</span>
         </InfoWrap>
       </Link>
     </ListItem>
