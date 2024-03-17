@@ -1,5 +1,5 @@
 import axios from 'axios';
-// import Cookies from 'js-cookie';
+import Cookies from 'js-cookie';
 
 export const baseURL = axios.create({
   baseURL: process.env.REACT_APP_SERVER_BASE_URL,
@@ -12,6 +12,6 @@ baseURL.interceptors.request.use((config) => {
   //     `Bearer ${token}`;
   // }
   config.headers['Authorization'] =
-    `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkeW9uZzEyNTZAdGVzdC5jb20iLCJhdXRoIjoiUkVQT1JURVIiLCJleHAiOjE3MTA5NTkwMjgsImlhdCI6MTcxMDU5OTAyOH0.f9P5xj-attsHfU_UJMtFff97MjMSQy1v0al9CDBs2PI`;
+    `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJicmFuZHkwMTA4QG5hdmVyLmNvbSIsImF1dGgiOiJVU0VSIiwiZXhwIjoxNzEwOTYxODM0LCJpYXQiOjE3MTA2MDE4MzR9.9Xw7S-1pyCKLYj-kSW9lmIh3KqeHZ6AVtAAM5eRdfEE`;
   return config;
 });
