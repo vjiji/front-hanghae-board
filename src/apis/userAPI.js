@@ -5,12 +5,7 @@ const userAPI = {
     baseURL.post('/api/user/signup', post),
   login: (post) =>
     baseURL.post('/api/user/login', post),
-  getUserInfo: (token) =>
-    baseURL.get('/api/auth', {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }),
+  getUserInfo: () => baseURL.get('/api/auth'),
 };
 
 export default userAPI;
