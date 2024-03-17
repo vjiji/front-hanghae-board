@@ -10,9 +10,9 @@ import Button, {
   StyledCloseButton,
 } from 'components/common/Button';
 import Input from 'components/common/Input';
-import { POST_CATEGORY } from 'constants/sharedConstants';
 import useAuthStore from 'store/authStore';
 import { removeCookie } from 'cookies/cookies';
+import { POST_CATEGORY } from 'constants/sharedConstants';
 
 const Header = () => {
   const navigate = useNavigate();
@@ -27,7 +27,7 @@ const Header = () => {
 
   //로고 클릭 이동
   const handleLogoClick = () => {
-    localStorage.setItem('category', null);
+    localStorage.setItem('category', '');
     navigate('/');
   };
   // 뉴스 작성하기 이동
@@ -124,7 +124,7 @@ const Header = () => {
         <Section>
           <NewsAction>
             <img src={PenIcon} alt="작성"></img>
-            <News onClick={handleGoToNewPost} ya>
+            <News onClick={handleGoToNewPost}>
               뉴스 작성하기
             </News>
           </NewsAction>
