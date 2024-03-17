@@ -17,29 +17,48 @@ const SignupModal = ({ onClose }) => {
   // 회원가입 성공 모달
   const [isSuccess, setIsSuccess] =
     useState(false);
-
+  const [isModal, setIsModal] = useState(false);
   const [message, setMessage] = useState('');
 
   const handleModalButtonClick = () => {
-    setMessage('');
-    isSuccess && onClose();
+    setIsModal(false);
+    if (isSuccess) {
+      onClose();
+      // setMessage('');
+    }
   };
 
   const handleSignup = async () => {
+    if (
+      !email.trim().length ||
+      !password.trim().length ||
+      !nickname.trim().length
+    ) {
+      setMessage({
+        message: '모든 항목을 입력해주세요!',
+      });
+      setIsModal(true);
+
+      return;
+    }
     try {
       //회원가입 api 호출
-      const response = await signup(
+      const { response } = await signup(
         email,
         password,
         nickname,
         adminToken,
       );
-      console.log(response);
+      console.log(response, ':: 서버 response');
       setIsSuccess(true);
-      setMessage('회원가입 성공!');
+      setMessage({ message: '회원가입 성공!' });
+      setIsModal(true);
     } catch (error) {
-      console.log(error);
-      setMessage('회원가입에 실패하였습니다!');
+      setMessage({
+        message: '회원가입 실패!',
+        ...error.response.data,
+      });
+      setIsModal(true);
     }
   };
 
@@ -69,6 +88,9 @@ const SignupModal = ({ onClose }) => {
             setEmail(e.target.value)
           }
         />
+        <p className="modal-message">
+          {message.email ?? ''}
+        </p>
       </InputBlock>
       <InputBlock>
         <h2>닉네임*</h2>
@@ -79,6 +101,9 @@ const SignupModal = ({ onClose }) => {
             setNickname(e.target.value)
           }
         />
+        <p className="modal-message">
+          {message.nickname ?? ''}
+        </p>
       </InputBlock>
       <InputBlock>
         <h2>비밀번호*</h2>
@@ -90,6 +115,9 @@ const SignupModal = ({ onClose }) => {
             setPassword(e.target.value)
           }
         />
+        <p className="modal-message">
+          {message.password ?? ''}
+        </p>
       </InputBlock>
       {isReporter && (
         <InputBlock>
@@ -108,11 +136,11 @@ const SignupModal = ({ onClose }) => {
         회원가입
       </Button>
       <Modal
-        isOpen={message}
+        isOpen={isModal}
         onClose={handleModalButtonClick}
       >
         <InnerModalLayout>
-          <h2>{message}</h2>
+          <h2>{message.message}</h2>
           <Button
             onClick={handleModalButtonClick}
           >
@@ -135,9 +163,16 @@ const Title = styled.div`
 const InputBlock = styled.div`
   width: 100%;
   margin-bottom: 20px;
+
   input {
     margin-top: 5px;
     width: 100%;
+  }
+
+  .modal-message {
+    color: red;
+    margin-top: 5px;
+    font-size: 12px;
   }
 `;
 

@@ -83,7 +83,8 @@ const Header = () => {
 
   // 로그아웃 처리
   const logout = () => {
-    removeCookie('token', {});
+    console.log('test');
+    removeCookie('token');
     useAuthStore.getState().logout();
   };
 
