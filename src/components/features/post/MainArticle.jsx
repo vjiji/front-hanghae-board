@@ -24,74 +24,78 @@ const MainArticle = () => {
     <MainArticleWrap>
       <ArticleTop>
         {post
-          .filter((post) => post.id === 1)
-          .map((post) => {
-            console.log(post.index);
-            return (
-              <WeeklyArticle
-                to={`/posts/${post.id}`}
-                key={post.id}
-              >
-                <div>
-                  <h2>&#34;{post.title}&#34;</h2>
-                  <Editor>
-                    <span>
-                      {post.nickname} 기자
-                    </span>
-                    <span>88,000</span>
-                  </Editor>
-                </div>
-                <ImgWrap>
-                  <img
-                    src={post.postImage.url}
-                    alt=""
-                  />
-                </ImgWrap>
-              </WeeklyArticle>
-            );
-          })}
-        {post
-          .filter((post) => post.id === 2)
-          .map((post) => {
-            return (
-              <HotArticle
-                to={`/posts/${post.id}`}
-                key={post.id}
-              >
-                <ImgWrap>
-                  <img
-                    src={post.postImage.url}
-                    alt=""
-                  />
-                </ImgWrap>
-
-                <h3>&#34;{post.title}&#34;</h3>
+          .filter((_, index) => index === 0)
+          .map((post) => (
+            <WeeklyArticle
+              to={`/posts/${post.id}`}
+              key={post.id}
+            >
+              <div>
+                <h2>&#34;{post.title}&#34;</h2>
                 <Editor>
                   <span>
                     {post.nickname} 기자
                   </span>
                   <span>88,000</span>
                 </Editor>
-              </HotArticle>
-            );
-          })}
+              </div>
+              <ImgWrap>
+                <img
+                  src={
+                    !post.postImage
+                      ? ''
+                      : post.postImage.url
+                  }
+                  alt=""
+                />
+              </ImgWrap>
+            </WeeklyArticle>
+          ))}
+        {post
+          .filter((_, index) => index === 1)
+          .map((post) => (
+            <HotArticle
+              to={`/posts/${post.id}`}
+              key={post.id}
+            >
+              <ImgWrap>
+                <img
+                  src={
+                    !post.postImage
+                      ? ''
+                      : post.postImage.url
+                  }
+                  alt=""
+                />
+              </ImgWrap>
+
+              <h3>&#34;{post.title}&#34;</h3>
+              <Editor>
+                <span>{post.nickname} 기자</span>
+                <span>88,000</span>
+              </Editor>
+            </HotArticle>
+          ))}
       </ArticleTop>
       <ArticleThumList>
         <ul>
-          {post
-            .filter((post) => post.id > 2)
-            .map((post) => {
-              return (
-                <li key={post.id}>
-                  <Link to={`/posts/${post.id}`}>
-                    <p>{post.title}</p>
-                    <ImgWrap>
-                      <img src="" />
-                    </ImgWrap>
-                  </Link>
-                </li>
-              );
-            })}
+          {post.slice(2, 6).map((post) => (
+            <li key={post.id}>
+              <Link to={`/posts/${post.id}`}>
+                <p>{post.title}</p>
+                <ImgWrap>
+                  <img
+                    src={
+                      !post.postImage
+                        ? ''
+                        : post.postImage.url
+                    }
+                    alt=""
+                  />
+                </ImgWrap>
+              </Link>
+            </li>
+          ))}
         </ul>
       </ArticleThumList>
     </MainArticleWrap>
