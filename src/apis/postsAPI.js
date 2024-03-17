@@ -17,6 +17,10 @@ const postsAPI = {
         ? `/api/posts/category/${category}/${tab}`
         : `/api/posts/${tab}`,
     ),
+  getPostsSearch: (searchTerm) =>
+    baseURL.get(
+      `/api/posts/search?title=${searchTerm}`,
+    ),
 };
 
 export default postsAPI;
