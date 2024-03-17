@@ -4,17 +4,20 @@ import styled from 'styled-components';
 
 const PostItem = ({ post }) => {
   const {
-    postId,
     nickname,
     title,
     category,
     contnents,
+    postImage,
   } = post;
   return (
-    <ListItem key={postId}>
+    <ListItem>
       <Link to="">
         <ImgWrap>
-          <img src="" alt="" />
+          <img
+            src={postImage?.url}
+            alt={postImage?.imageName}
+          />
         </ImgWrap>
         <InfoWrap>
           <em>{category}</em>
@@ -42,6 +45,10 @@ const ImgWrap = styled.div`
   //더미
   background: #ddd;
   height: 280px;
+
+  img {
+    width: 100%;
+  }
 `;
 const InfoWrap = styled.div`
   display: flex;

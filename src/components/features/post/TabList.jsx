@@ -5,17 +5,15 @@ import {
   POST_TAB_KEY,
   TAB_NAME,
 } from 'constants/sharedConstants';
-// import postsAPI from 'apis/postsAPI';
+import postsAPI from 'apis/postsAPI';
 import { useQuery } from '@tanstack/react-query';
 
 const getPosts = async (tab, category) => {
-  console.log(tab, category);
-  // const data = await postsAPI.getPostsByTab(
-  //   tab,
-  //   category,
-  // );
-  // console.log(data);
-  // return data;
+  const { data } = await postsAPI.getPostsByTab(
+    tab,
+    category,
+  );
+  return data.data;
 };
 const TabList = () => {
   const currentCategory =
@@ -28,16 +26,18 @@ const TabList = () => {
       `posts${currentCategory ? `_${currentCategory}` : ''}`,
       activeTab,
     ],
-    queryFn: getPosts(activeTab, currentCategory),
+    queryFn: () =>
+      getPosts(activeTab, currentCategory),
     enabled: !!activeTab,
   });
 
   const handleTabClick = (tabName) => {
     setActiveTab(tabName);
   };
+  console.log(posts);
 
   if (!posts) return null;
-  console.log(posts);
+
   return (
     <>
       <TabMenu>
@@ -56,9 +56,14 @@ const TabList = () => {
             ),
           )}
         </TabBtns>
-        <PostItem />
-        <PostItem />
-        <PostItem />
+        {posts.map(
+          ({ id, nickname, ...post }) => (
+            <PostItem
+              key={id + nickname}
+              post={post}
+            />
+          ),
+        )}
       </TabMenu>
     </>
   );

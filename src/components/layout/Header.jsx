@@ -10,7 +10,6 @@ import Button, {
   StyledCloseButton,
 } from 'components/common/Button';
 import Input from 'components/common/Input';
-import { POST_CATEGORY } from 'constants/sharedConstants';
 
 const Header = () => {
   const navigate = useNavigate();
@@ -22,10 +21,7 @@ const Header = () => {
 
   //로고 클릭
   const handleLogoClick = () => {
-    localStorage.setItem(
-      'category',
-      POST_CATEGORY.DEFAULT,
-    );
+    localStorage.setItem('category', '');
     navigate('/');
   };
   // 로그인 처리

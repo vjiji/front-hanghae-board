@@ -12,8 +12,8 @@ const postsAPI = {
   getPostsByTab: (tab, category) =>
     baseURL.get(
       category
-        ? `/api/posts/category/${category}/${tab}`
-        : `/api/posts/${tab}`,
+        ? `/api/posts/category/${category}/type/${tab}`
+        : `/api/posts/type/${tab}`,
     ),
 };
 
