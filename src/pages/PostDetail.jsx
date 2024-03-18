@@ -19,13 +19,13 @@ const deletePost = async (postId) => {
 export const getPostDetail = async (id) => {
   const { data } =
     await postsAPI.getPostDetail(id);
-  return data.data.first;
+  return data.data;
 };
 
 const PostDetail = () => {
   const { id: postId } = useParams();
   const navigate = useNavigate();
-  const { data: post } = useQuery({
+  const { data } = useQuery({
     queryKey: ['postDetail', postId],
     queryFn: () => getPostDetail(postId),
     enabled: !!postId,
@@ -39,8 +39,8 @@ const PostDetail = () => {
     },
   });
 
-  if (!post) return <div>....loading</div>;
-
+  if (!data) return <div>....loading</div>;
+  const { first: post, second: comment } = data;
   return (
     <PostDetailLayout>
       <TitleBox>
@@ -77,7 +77,7 @@ const PostDetail = () => {
 
       <Comment
         id={post.id}
-        commentList={post.commentList}
+        commentList={comment.data}
       />
     </PostDetailLayout>
   );

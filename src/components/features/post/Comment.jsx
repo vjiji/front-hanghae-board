@@ -23,8 +23,8 @@ const Comment = ({ commentList, id }) => {
         comment,
         id,
       );
-    console.log(data);
-    return data.data.second;
+
+    return data.data;
   };
   const deleteComment = async (commentId) => {
     const { data } =
@@ -33,7 +33,7 @@ const Comment = ({ commentList, id }) => {
         commentId,
       );
 
-    return data.data.second;
+    return data.data;
   };
   const modifyComment = async ({
     newComment,
@@ -46,7 +46,7 @@ const Comment = ({ commentList, id }) => {
         commentId,
       });
 
-    return data.data.second;
+    return data.data;
   };
 
   const queryClient = useQueryClient();
@@ -187,6 +187,9 @@ const CommentInput = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;
+  button {
+    margin: 0;
+  }
 `;
 const InputWarp = styled.div`
   position: relative;
