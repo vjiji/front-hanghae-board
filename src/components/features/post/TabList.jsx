@@ -1,16 +1,28 @@
+import { useEffect, useMemo } from 'react';
 import styled, { css } from 'styled-components';
-import { useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery } from '@tanstack/react-query';
 import PostItem from './PostItem';
 import { TAB_NAME } from 'constants/sharedConstants';
 import postsAPI from 'apis/postsAPI';
 import usePageStore from 'store/categoryStore';
+import { throttle } from 'lodash';
 
-const getPosts = async (tab, category) => {
+const getPosts = async (
+  tab,
+  category,
+  pageParam,
+) => {
   const { data } = await postsAPI.getPostsByTab(
     tab,
     category,
+    pageParam,
   );
-  return data.data;
+  const { responseDto, hasNext } = data.data;
+  return {
+    result: responseDto,
+    nextPage: pageParam + 1,
+    isLast: !hasNext,
+  };
 };
 const TabList = () => {
   const { pageInfo, setTab } = usePageStore();
@@ -19,21 +31,71 @@ const TabList = () => {
     tab: currentTab,
   } = pageInfo;
 
-  const { data: posts } = useQuery({
-    queryKey: [
-      `posts${currentCategory ? `_${currentCategory}` : ''}`,
-      currentTab,
-    ],
-    queryFn: () =>
-      getPosts(currentTab, currentCategory),
-    enabled: !!currentTab,
-  });
-
   const handleTabClick = (tabName) => {
     setTab(tabName);
   };
 
-  if (!posts) return null;
+  const {
+    data,
+    fetchNextPage,
+    isFetchingNextPage,
+  } = useInfiniteQuery({
+    queryKey: [
+      `posts${currentCategory ? `_${currentCategory}` : ''}`,
+      currentTab,
+    ],
+    queryFn: ({ pageParam = 1 }) =>
+      getPosts(
+        currentTab,
+        currentCategory,
+        pageParam,
+      ),
+    getNextPageParam: (lastPage) => {
+      if (!lastPage.isLast)
+        return lastPage.nextPage;
+      return undefined;
+    },
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    retry: 1,
+  });
+
+  const posts = useMemo(() => {
+    let list = [];
+    data &&
+      data.pages.forEach(
+        ({ result }) =>
+          (list = [...list, ...result]),
+      );
+    return list;
+  }, [data]);
+
+  const handleScroll = throttle(() => {
+    if (
+      document.documentElement.scrollHeight -
+        50 <=
+      document.documentElement.scrollTop +
+        document.documentElement.clientHeight
+    ) {
+      fetchNextPage();
+    }
+  }, 1000);
+
+  useEffect(() => {
+    window.addEventListener(
+      'scroll',
+      handleScroll,
+    );
+    return () => {
+      window.removeEventListener(
+        'scroll',
+        handleScroll,
+      );
+    };
+  }, [handleScroll]);
+
+  if (!data)
+    return <LoadingText>....loading</LoadingText>;
 
   return (
     <>
@@ -53,8 +115,11 @@ const TabList = () => {
             ),
           )}
         </TabBtns>
+        <button onClick={() => fetchNextPage()}>
+          test
+        </button>
         <ItemLayout>
-          {posts.responseDto.map((post) => (
+          {posts.map((post) => (
             <PostItem
               key={post.id + post.nickname}
               post={post}
@@ -62,6 +127,9 @@ const TabList = () => {
             />
           ))}
         </ItemLayout>
+        {isFetchingNextPage && (
+          <LoadingText>....loading</LoadingText>
+        )}
       </TabMenu>
     </>
   );
@@ -105,4 +173,9 @@ const ItemLayout = styled.div`
   display: flex;
   flex-direction: column;
   gap: 20px;
+`;
+
+const LoadingText = styled.div`
+  width: fit-content;
+  margin: 0 auto;
 `;
