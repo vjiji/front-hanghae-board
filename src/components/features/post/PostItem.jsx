@@ -50,7 +50,7 @@ const ImgWrap = styled.picture`
   display: block;
   position: relative;
   overflow: hidden;
-  padding-top: 100%;
+  padding-top: 56.25%;
   height: 0;
   width: 100%;
   img {

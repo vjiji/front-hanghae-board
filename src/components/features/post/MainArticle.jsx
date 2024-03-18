@@ -152,6 +152,7 @@ const ArticleThumList = styled.div`
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
         overflow: hidden;
+        line-height: 1.2;
       }
     }
   }
@@ -166,6 +167,7 @@ const HotArticle = styled(Link)`
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
+    line-height: 1.2;
   }
 `;
 const ImgWrap = styled.picture`
