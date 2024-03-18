@@ -46,6 +46,7 @@ const Header = () => {
   const handleCategoryClick = (categoryKey) => {
     localStorage.setItem('category', categoryKey);
     setCategory(categoryKey);
+    navigate('/');
   };
   // 로그인 처리
   // const handleLoginSuccess = () => {
