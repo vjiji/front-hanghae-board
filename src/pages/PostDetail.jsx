@@ -10,6 +10,7 @@ import {
   useNavigate,
   useParams,
 } from 'react-router-dom';
+import useAuthStore from 'store/authStore';
 import styled from 'styled-components';
 
 const deletePost = async (postId) => {
@@ -26,12 +27,12 @@ export const getPostDetail = async (id) => {
 const PostDetail = () => {
   const { id: postId } = useParams();
   const navigate = useNavigate();
+  const { nickname } = useAuthStore();
   const { data } = useQuery({
     queryKey: ['postDetail', postId],
     queryFn: () => getPostDetail(postId),
     enabled: !!postId,
   });
-
   const { mutate: handleDelete } = useMutation({
     mutationFn: deletePost,
     onSuccess: () => {
@@ -46,20 +47,22 @@ const PostDetail = () => {
     <PostDetailLayout>
       <TitleBox>
         <h1>{post.title}</h1>
-        <ButtonBox>
-          <button
-            onClick={() =>
-              navigate(`/editpost/${post.id}`)
-            }
-          >
-            수정
-          </button>
-          <button
-            onClick={() => handleDelete(postId)}
-          >
-            삭제
-          </button>
-        </ButtonBox>
+        {post.nickname === nickname && (
+          <ButtonBox>
+            <button
+              onClick={() =>
+                navigate(`/editpost/${post.id}`)
+              }
+            >
+              수정
+            </button>
+            <button
+              onClick={() => handleDelete(postId)}
+            >
+              삭제
+            </button>
+          </ButtonBox>
+        )}
       </TitleBox>
       <div className="post-detail__category-box">
         <p>{POST_CATEGORY[post.category]}</p>
