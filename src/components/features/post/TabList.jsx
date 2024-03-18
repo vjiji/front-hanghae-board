@@ -1,13 +1,11 @@
+import { useEffect, useMemo } from 'react';
 import styled, { css } from 'styled-components';
-import {
-  useInfiniteQuery,
-  useQuery,
-} from '@tanstack/react-query';
+import { useInfiniteQuery } from '@tanstack/react-query';
 import PostItem from './PostItem';
 import { TAB_NAME } from 'constants/sharedConstants';
 import postsAPI from 'apis/postsAPI';
 import usePageStore from 'store/categoryStore';
-import { useMemo } from 'react';
+import { throttle } from 'lodash';
 
 const getPosts = async (
   tab,
@@ -52,41 +50,53 @@ const TabList = () => {
         currentCategory,
         pageParam,
       ),
-    getNextPageParam: (lastPage, allpages) => {
+    getNextPageParam: (lastPage) => {
       if (!lastPage.isLast)
         return lastPage.nextPage;
       return undefined;
     },
-    // refetchOnWindowFocus: false,
-    // refetchOnMount: true,
-    // refetchOnReconnect: true,
-    // retry: 1,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    retry: 1,
   });
 
-  // const { data: posts } = useQuery({
-  //   queryKey: [
-  //     `posts${currentCategory ? `_${currentCategory}` : ''}`,
-  //     currentTab,
-  //   ],
-  //   queryFn: () =>
-  //     getPosts(currentTab, currentCategory),
-  //   enabled: !!currentTab,
-  // });
-
-  // const posts = data.pages.map(
-  //   ({ result }) => result,
-  // );
-
-  // console.log(posts);
-
-  const test = useMemo(() => {
-    const list = [];
-    console.log(data.pages);
-    data.pages.forEach(({ result }) => result);
+  const posts = useMemo(() => {
+    let list = [];
+    data &&
+      data.pages.forEach(
+        ({ result }) =>
+          (list = [...list, ...result]),
+      );
     return list;
-  }, []);
+  }, [data]);
 
-  console.log(test);
+  const handleScroll = throttle(() => {
+    if (
+      document.documentElement.scrollHeight -
+        50 <=
+      document.documentElement.scrollTop +
+        document.documentElement.clientHeight
+    ) {
+      fetchNextPage();
+    }
+  }, 1000);
+
+  useEffect(() => {
+    window.addEventListener(
+      'scroll',
+      handleScroll,
+    );
+    return () => {
+      window.removeEventListener(
+        'scroll',
+        handleScroll,
+      );
+    };
+  }, [handleScroll]);
+
+  if (!data)
+    return <LoadingText>....loading</LoadingText>;
+
   return (
     <>
       <TabMenu>
@@ -106,17 +116,20 @@ const TabList = () => {
           )}
         </TabBtns>
         <button onClick={() => fetchNextPage()}>
-          fetch next page
+          test
         </button>
-        {/* <ItemLayout>
-          {posts.responseDto.map((post) => (
+        <ItemLayout>
+          {posts.map((post) => (
             <PostItem
               key={post.id + post.nickname}
               post={post}
               countInfo={`조회수 ${post.hit}`}
             />
           ))}
-        </ItemLayout> */}
+        </ItemLayout>
+        {isFetchingNextPage && (
+          <LoadingText>....loading</LoadingText>
+        )}
       </TabMenu>
     </>
   );
@@ -160,4 +173,9 @@ const ItemLayout = styled.div`
   display: flex;
   flex-direction: column;
   gap: 20px;
+`;
+
+const LoadingText = styled.div`
+  width: fit-content;
+  margin: 0 auto;
 `;
