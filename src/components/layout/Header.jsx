@@ -28,12 +28,11 @@ const Header = () => {
 
   // 뉴스 작성하기 이동
   const handleGoToNewPost = () => {
-    // if (isReporter) {
-    //   navigate('/newpost');
-    // } else {
-    //   openModal('notReporter');
-    // }
-    navigate('/newpost');
+    if (isReporter) {
+      navigate('/newpost');
+    } else {
+      openModal('notReporter');
+    }
   };
 
   //로고 클릭 이동

@@ -15,6 +15,7 @@ import postsAPI from 'apis/postsAPI';
 import { convertFormForRequest } from 'utils/convertFormDataForRequest';
 import { POST_CATEGORY } from 'constants/sharedConstants';
 import { getCategoryKey } from 'utils/getCategoryKey';
+import { ScrollToTopButton } from 'components/common/Button';
 
 const updatePost = async ({ post, postId }) => {
   const { data } = await postsAPI.updatePost(
@@ -96,6 +97,7 @@ const PostEdit = () => {
           post.first.postImageList[0]?.imageName
         }
       />
+      <ScrollToTopButton></ScrollToTopButton>
     </NewPostLayout>
   );
 };

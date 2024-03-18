@@ -6,6 +6,7 @@ import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { convertFormForRequest } from 'utils/convertFormDataForRequest';
 import { getCategoryKey } from 'utils/getCategoryKey';
+import { ScrollToTopButton } from 'components/common/Button';
 
 const createPost = async (post) => {
   const { data } =
@@ -61,6 +62,7 @@ const NewPost = () => {
         setValue={setValue}
         errors={errors}
       />
+      <ScrollToTopButton></ScrollToTopButton>
     </NewPostLayout>
   );
 };
