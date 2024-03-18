@@ -56,7 +56,7 @@ const TabList = () => {
       return undefined;
     },
     refetchOnWindowFocus: false,
-    refetchOnMount: false,
+    refetchOnMount: true,
     retry: 1,
   });
 
