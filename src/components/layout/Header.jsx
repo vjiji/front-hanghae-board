@@ -48,11 +48,6 @@ const Header = () => {
     setCategory(categoryKey);
     navigate('/');
   };
-  // 로그인 처리
-  // const handleLoginSuccess = () => {
-  //   setIsLogin(true);
-  //   closeModal();
-  // };
 
   // 로그인 또는 회원가입 모달 열기
   const openModal = (content) => {
@@ -104,7 +99,6 @@ const Header = () => {
 
   // 로그아웃 처리
   const logout = () => {
-    console.log('test');
     removeCookie('token');
     useAuthStore.getState().logout();
   };
