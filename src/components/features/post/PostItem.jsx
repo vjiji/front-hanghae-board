@@ -5,25 +5,34 @@ import styled from 'styled-components';
 
 const PostItem = ({ post, countInfo }) => {
   const {
-    postId,
+    id,
     nickname,
     title,
     category,
     contnents,
-    // postImage,
+    postImage,
   } = post;
+
   return (
-    <ListItem key={postId}>
-      <Link to="">
-        <ImgWrap>
-          <img src="" alt="" />
-        </ImgWrap>
+    <ListItem>
+      <Link to={`/posts/${id}`}>
+        {/* <ImgWrap>
+<img
+src={postImage?.url}
+alt={postImage?.imageName}
+/>
+</ImgWrap> */}
+        <ImgBox
+          $img={
+            postImage?.url ??
+            'https://github.com/pmndrs/zustand/raw/main/bear.jpg'
+          }
+        ></ImgBox>
         <InfoWrap>
           <em>{POST_CATEGORY[category]}</em>
           <h3>{title}</h3>
           <p>{contnents}</p>
           <span>{nickname} 기자</span>
-          <span>994,999</span>
           <span>{countInfo}</span>
         </InfoWrap>
       </Link>
@@ -41,11 +50,15 @@ const ListItem = styled.div`
     padding: 20px 0;
   }
 `;
-const ImgWrap = styled.div`
-  //더미
-  background: #ddd;
-  height: 280px;
-`;
+// const ImgWrap = styled.div`
+//   //더미
+//   background: #ddd;
+//   height: 280px;
+
+//   img {
+//     height: 100%;
+//   }
+// `;
 const InfoWrap = styled.div`
   display: flex;
   flex-direction: column;
@@ -67,4 +80,14 @@ const InfoWrap = styled.div`
   span + span {
     margin-top: auto;
   }
+`;
+
+const ImgBox = styled.div`
+  width: 100%;
+  height: 280px;
+  background-image: ${({ $img }) =>
+    `url(${$img})`};
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
 `;
