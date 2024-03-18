@@ -1,5 +1,6 @@
 // 회원가입 요청
 
+import { setCookie } from 'cookies/cookies';
 import { baseURL } from './instance';
 import userAPI from './userAPI';
 
@@ -37,6 +38,11 @@ export const login = async (email, password) => {
         password,
       },
     );
+    const token =
+      response.headers[`Authorization`];
+
+    setCookie('token', token);
+
     return response.data;
   } catch (error) {
     console.error('Login error', error.response);
