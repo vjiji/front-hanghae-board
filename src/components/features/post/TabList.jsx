@@ -115,9 +115,6 @@ const TabList = () => {
             ),
           )}
         </TabBtns>
-        <button onClick={() => fetchNextPage()}>
-          test
-        </button>
         <ItemLayout>
           {posts.map((post) => (
             <PostItem
