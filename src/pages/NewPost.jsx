@@ -73,4 +73,7 @@ const NewPostLayout = styled.div`
   margin: 100px 0;
   display: flex;
   justify-content: center;
+  @media (max-width: 900) {
+    margin: 50px 0;
+  }
 `;

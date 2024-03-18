@@ -42,7 +42,7 @@ const PostForm = ({
       <FieldBox>
         <RefInput
           placeholder={'뉴스 제목을 입력하세요.'}
-          width="360px"
+          width="100%"
           {...register('title', {
             required: '뉴스 제목을 입력해주세요',
           })}
@@ -91,7 +91,8 @@ const PostForm = ({
 export default PostForm;
 
 const FormLayout = styled.form`
-  width: 732px;
+  width: 100%;
+  max-width: 800px;
   display: flex;
   flex-direction: column;
   gap: 30px;
@@ -108,7 +109,9 @@ const FormLayout = styled.form`
     border: 2px solid #666;
     border-radius: 10px;
     font-size: 18px;
-
+    @media (max-width: 900px) {
+      height: 400px;
+    }
     &::placeholder {
       color: #bababa;
     }

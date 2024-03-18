@@ -149,6 +149,9 @@ const TabBtn = styled.button`
   background: none;
   border: none;
   font-size: 20px;
+  @media (max-width: 900px) {
+    min-width: 150px;
+  }
   cursor: pointer;
   ${({ $active }) =>
     $active &&
@@ -169,7 +172,7 @@ const TabBtn = styled.button`
 const ItemLayout = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 15px;
 `;
 
 const LoadingText = styled.div`
