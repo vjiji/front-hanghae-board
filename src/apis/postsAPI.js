@@ -11,11 +11,11 @@ const postsAPI = {
     baseURL.post(`/api/posts/${id}`, post),
   deletePost: (id) =>
     baseURL.delete(`/api/posts/${id}`),
-  getPostsByTab: (tab, category) =>
+  getPostsByTab: (tab, category, pageParam) =>
     baseURL.get(
       category
-        ? `/api/posts/category/${category}/type/${tab}`
-        : `/api/posts/type/${tab}`,
+        ? `/api/posts/category/${category}/type/${tab}?num=${pageParam}`
+        : `/api/posts/type/${tab}?num=${pageParam}`,
     ),
   getPostsSearch: (searchTerm) =>
     baseURL.get(

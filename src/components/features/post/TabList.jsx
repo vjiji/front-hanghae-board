@@ -1,16 +1,30 @@
 import styled, { css } from 'styled-components';
-import { useQuery } from '@tanstack/react-query';
+import {
+  useInfiniteQuery,
+  useQuery,
+} from '@tanstack/react-query';
 import PostItem from './PostItem';
 import { TAB_NAME } from 'constants/sharedConstants';
 import postsAPI from 'apis/postsAPI';
 import usePageStore from 'store/categoryStore';
+import { useMemo } from 'react';
 
-const getPosts = async (tab, category) => {
+const getPosts = async (
+  tab,
+  category,
+  pageParam,
+) => {
   const { data } = await postsAPI.getPostsByTab(
     tab,
     category,
+    pageParam,
   );
-  return data.data;
+  const { responseDto, hasNext } = data.data;
+  return {
+    result: responseDto,
+    nextPage: pageParam + 1,
+    isLast: !hasNext,
+  };
 };
 const TabList = () => {
   const { pageInfo, setTab } = usePageStore();
@@ -19,22 +33,60 @@ const TabList = () => {
     tab: currentTab,
   } = pageInfo;
 
-  const { data: posts } = useQuery({
-    queryKey: [
-      `posts${currentCategory ? `_${currentCategory}` : ''}`,
-      currentTab,
-    ],
-    queryFn: () =>
-      getPosts(currentTab, currentCategory),
-    enabled: !!currentTab,
-  });
-
   const handleTabClick = (tabName) => {
     setTab(tabName);
   };
 
-  if (!posts) return null;
+  const {
+    data,
+    fetchNextPage,
+    isFetchingNextPage,
+  } = useInfiniteQuery({
+    queryKey: [
+      `posts${currentCategory ? `_${currentCategory}` : ''}`,
+      currentTab,
+    ],
+    queryFn: ({ pageParam = 1 }) =>
+      getPosts(
+        currentTab,
+        currentCategory,
+        pageParam,
+      ),
+    getNextPageParam: (lastPage, allpages) => {
+      if (!lastPage.isLast)
+        return lastPage.nextPage;
+      return undefined;
+    },
+    // refetchOnWindowFocus: false,
+    // refetchOnMount: true,
+    // refetchOnReconnect: true,
+    // retry: 1,
+  });
 
+  // const { data: posts } = useQuery({
+  //   queryKey: [
+  //     `posts${currentCategory ? `_${currentCategory}` : ''}`,
+  //     currentTab,
+  //   ],
+  //   queryFn: () =>
+  //     getPosts(currentTab, currentCategory),
+  //   enabled: !!currentTab,
+  // });
+
+  // const posts = data.pages.map(
+  //   ({ result }) => result,
+  // );
+
+  // console.log(posts);
+
+  const test = useMemo(() => {
+    const list = [];
+    console.log(data.pages);
+    data.pages.forEach(({ result }) => result);
+    return list;
+  }, []);
+
+  console.log(test);
   return (
     <>
       <TabMenu>
@@ -53,7 +105,10 @@ const TabList = () => {
             ),
           )}
         </TabBtns>
-        <ItemLayout>
+        <button onClick={() => fetchNextPage()}>
+          fetch next page
+        </button>
+        {/* <ItemLayout>
           {posts.responseDto.map((post) => (
             <PostItem
               key={post.id + post.nickname}
@@ -61,7 +116,7 @@ const TabList = () => {
               countInfo={`조회수 ${post.hit}`}
             />
           ))}
-        </ItemLayout>
+        </ItemLayout> */}
       </TabMenu>
     </>
   );
