@@ -12,6 +12,7 @@ import {
 } from 'react-router-dom';
 import useAuthStore from 'store/authStore';
 import styled from 'styled-components';
+import defaultImage from 'assets/logo.webp';
 
 const deletePost = async (postId) => {
   await postsAPI.deletePost(postId);
@@ -72,7 +73,7 @@ const PostDetail = () => {
         <img
           src={
             post.postImageList[0]?.url ??
-            'https://github.com/pmndrs/zustand/raw/main/bear.jpg'
+            defaultImage
           }
           alt="post image"
         />

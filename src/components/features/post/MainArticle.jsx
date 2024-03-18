@@ -5,6 +5,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import usePageStore from 'store/categoryStore';
 import styled from 'styled-components';
+import defaultImage from 'assets/logo.webp';
 
 const MainArticle = () => {
   const { pageInfo } = usePageStore();
@@ -52,7 +53,7 @@ const MainArticle = () => {
                 <img
                   src={
                     !post.postImage
-                      ? ''
+                      ? defaultImage
                       : post.postImage.url
                   }
                   alt=""
@@ -71,7 +72,7 @@ const MainArticle = () => {
                 <img
                   src={
                     !post.postImage
-                      ? ''
+                      ? defaultImage
                       : post.postImage.url
                   }
                   alt=""
@@ -96,7 +97,7 @@ const MainArticle = () => {
                   <img
                     src={
                       !post.postImage
-                        ? ''
+                        ? defaultImage
                         : post.postImage.url
                     }
                     alt=""

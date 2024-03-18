@@ -2,11 +2,9 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import Button from 'components/common/Button';
 import Input from 'components/common/Input';
-// import { useNavigate } from 'react-router-dom';
 import { login } from 'apis/login';
 import useAuthStore from 'store/authStore';
 import Modal from './Modal';
-// import { setCookie } from 'cookies/cookies';
 
 function LoginModal({ onClose }) {
   // const router = useNavigate();
@@ -21,7 +19,6 @@ function LoginModal({ onClose }) {
   };
   const loginSuccess = (response) => {
     // Todo: 토큰, 유저정보 안넘어옴
-    console.log(response, '응답 확인');
     const { userId, role, email, nickname } =
       response;
 
@@ -47,7 +44,6 @@ function LoginModal({ onClose }) {
     }
     try {
       const data = await login(id, password);
-      console.log(data);
       if (data) {
         setIsSuccess(true);
         setMessage('로그인에 성공하였습니다!');

@@ -179,6 +179,7 @@ const Header = () => {
               src={SearchIcon}
               alt="검색"
               onClick={() => openModal('search')}
+              style={{ cursor: 'pointer' }}
             />
           </UserActions>
         </Section>
