@@ -17,11 +17,11 @@ const PostItem = ({ post, countInfo }) => {
     <ListItem>
       <Link to={`/posts/${id}`}>
         {/* <ImgWrap>
-          <img
-            src={postImage?.url}
-            alt={postImage?.imageName}
-          />
-        </ImgWrap> */}
+<img
+src={postImage?.url}
+alt={postImage?.imageName}
+/>
+</ImgWrap> */}
         <ImgBox
           $img={
             postImage?.url ??
@@ -50,15 +50,15 @@ const ListItem = styled.div`
     padding: 20px 0;
   }
 `;
-const ImgWrap = styled.div`
-  //더미
-  background: #ddd;
-  height: 280px;
+// const ImgWrap = styled.div`
+//   //더미
+//   background: #ddd;
+//   height: 280px;
 
-  img {
-    height: 100%;
-  }
-`;
+//   img {
+//     height: 100%;
+//   }
+// `;
 const InfoWrap = styled.div`
   display: flex;
   flex-direction: column;
