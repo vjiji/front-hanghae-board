@@ -2,6 +2,7 @@ import { POST_CATEGORY } from 'constants/sharedConstants';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import defaultImage from 'assets/logo.webp';
 
 const PostItem = ({ post, countInfo }) => {
   const {
@@ -18,10 +19,7 @@ const PostItem = ({ post, countInfo }) => {
       <Link to={`/posts/${id}`}>
         <ImgWrap>
           <img
-            src={
-              postImage?.url ??
-              'https://github.com/pmndrs/zustand/raw/main/bear.jpg'
-            }
+            src={postImage?.url ?? defaultImage}
             alt={postImage?.imageName}
           />
         </ImgWrap>
