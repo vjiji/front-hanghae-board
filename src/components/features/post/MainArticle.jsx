@@ -3,20 +3,29 @@ import postsAPI from 'apis/postsAPI';
 // import { getPostDetail } from 'pages/PostDetail';
 import React from 'react';
 import { Link } from 'react-router-dom';
+import usePageStore from 'store/categoryStore';
 import styled from 'styled-components';
 
 const MainArticle = () => {
-  const getPostAll = async (post) => {
-    const { data } =
-      await postsAPI.getPostAll(post);
+  const { pageInfo } = usePageStore();
+  const { category: currentCategory } = pageInfo;
+
+  const { data: post } = useQuery({
+    queryKey: [
+      `posts${currentCategory ? `_${currentCategory}` : ''}`,
+    ],
+    queryFn: () =>
+      getPostAll(post, currentCategory),
+  });
+
+  const getPostAll = async (post, category) => {
+    const { data } = await postsAPI.getPostAll(
+      post,
+      category,
+    );
     return data.data;
   };
 
-  const { data: post } = useQuery({
-    queryKey: ['getPost'],
-    queryFn: () => getPostAll(post),
-  });
-  console.log(post);
   if (!post) {
     return null;
   }
