@@ -9,7 +9,6 @@ const Auth = () => {
   useEffect(() => {
     if (!userId) {
       const token = getCookie('token');
-
       token &&
         getUser().then(({ id, nickname, role }) =>
           login({

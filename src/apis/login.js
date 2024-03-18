@@ -38,11 +38,12 @@ export const login = async (email, password) => {
         password,
       },
     );
+
     const token =
-      response.headers[`Authorization`];
-
+      response.headers.authorization.split(
+        ' ',
+      )[1];
     setCookie('token', token);
-
     return response.data;
   } catch (error) {
     console.error('Login error', error.response);
