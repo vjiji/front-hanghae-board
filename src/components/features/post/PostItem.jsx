@@ -40,8 +40,8 @@ const ListItem = styled.div`
   a {
     display: grid;
     grid-template-columns: 1fr 2fr;
-    gap: 10px;
-    padding: 10px 0;
+    gap: 20px;
+    padding: 20px 0;
     @media (max-width: 900px) {
       grid-template-columns: 1fr;
     }
