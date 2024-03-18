@@ -112,6 +112,10 @@ const ArticleTop = styled.div`
   h2 {
     font-size: 36px;
     font-weight: 800;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 `;
 const WeeklyArticle = styled(Link)`
@@ -135,6 +139,10 @@ const ArticleThumList = styled.div`
         position: absolute;
         bottom: 15px;
         left: 15px;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
       }
     }
   }
@@ -145,6 +153,10 @@ const HotArticle = styled(Link)`
     margin-top: 20px;
     font-size: 20px;
     font-weight: 700;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 `;
 const ImgWrap = styled.picture`
