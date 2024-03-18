@@ -3,20 +3,29 @@ import postsAPI from 'apis/postsAPI';
 // import { getPostDetail } from 'pages/PostDetail';
 import React from 'react';
 import { Link } from 'react-router-dom';
+import usePageStore from 'store/categoryStore';
 import styled from 'styled-components';
 
 const MainArticle = () => {
-  const getPostAll = async (post) => {
-    const { data } =
-      await postsAPI.getPostAll(post);
+  const { pageInfo } = usePageStore();
+  const { category: currentCategory } = pageInfo;
+
+  const { data: post } = useQuery({
+    queryKey: [
+      `posts${currentCategory ? `_${currentCategory}` : ''}`,
+    ],
+    queryFn: () =>
+      getPostAll(post, currentCategory),
+  });
+
+  const getPostAll = async (post, category) => {
+    const { data } = await postsAPI.getPostAll(
+      post,
+      category,
+    );
     return data.data;
   };
 
-  const { data: post } = useQuery({
-    queryKey: ['getPost'],
-    queryFn: () => getPostAll(post),
-  });
-  console.log(post);
   if (!post) {
     return null;
   }
@@ -24,74 +33,78 @@ const MainArticle = () => {
     <MainArticleWrap>
       <ArticleTop>
         {post
-          .filter((post) => post.id === 1)
-          .map((post) => {
-            console.log(post.index);
-            return (
-              <WeeklyArticle
-                to={`/posts/${post.id}`}
-                key={post.id}
-              >
-                <div>
-                  <h2>&#34;{post.title}&#34;</h2>
-                  <Editor>
-                    <span>
-                      {post.nickname} 기자
-                    </span>
-                    <span>88,000</span>
-                  </Editor>
-                </div>
-                <ImgWrap>
-                  <img
-                    src={post.postImage.url}
-                    alt=""
-                  />
-                </ImgWrap>
-              </WeeklyArticle>
-            );
-          })}
-        {post
-          .filter((post) => post.id === 2)
-          .map((post) => {
-            return (
-              <HotArticle
-                to={`/posts/${post.id}`}
-                key={post.id}
-              >
-                <ImgWrap>
-                  <img
-                    src={post.postImage.url}
-                    alt=""
-                  />
-                </ImgWrap>
-
-                <h3>&#34;{post.title}&#34;</h3>
+          .filter((_, index) => index === 0)
+          .map((post) => (
+            <WeeklyArticle
+              to={`/posts/${post.id}`}
+              key={post.id}
+            >
+              <div>
+                <h2>&#34;{post.title}&#34;</h2>
                 <Editor>
                   <span>
                     {post.nickname} 기자
                   </span>
                   <span>88,000</span>
                 </Editor>
-              </HotArticle>
-            );
-          })}
+              </div>
+              <ImgWrap>
+                <img
+                  src={
+                    !post.postImage
+                      ? ''
+                      : post.postImage.url
+                  }
+                  alt=""
+                />
+              </ImgWrap>
+            </WeeklyArticle>
+          ))}
+        {post
+          .filter((_, index) => index === 1)
+          .map((post) => (
+            <HotArticle
+              to={`/posts/${post.id}`}
+              key={post.id}
+            >
+              <ImgWrap>
+                <img
+                  src={
+                    !post.postImage
+                      ? ''
+                      : post.postImage.url
+                  }
+                  alt=""
+                />
+              </ImgWrap>
+
+              <h3>&#34;{post.title}&#34;</h3>
+              <Editor>
+                <span>{post.nickname} 기자</span>
+                <span>88,000</span>
+              </Editor>
+            </HotArticle>
+          ))}
       </ArticleTop>
       <ArticleThumList>
         <ul>
-          {post
-            .filter((post) => post.id > 2)
-            .map((post) => {
-              return (
-                <li key={post.id}>
-                  <Link to={`/posts/${post.id}`}>
-                    <p>{post.title}</p>
-                    <ImgWrap>
-                      <img src="" />
-                    </ImgWrap>
-                  </Link>
-                </li>
-              );
-            })}
+          {post.slice(2, 6).map((post) => (
+            <li key={post.id}>
+              <Link to={`/posts/${post.id}`}>
+                <p>{post.title}</p>
+                <ImgWrap>
+                  <img
+                    src={
+                      !post.postImage
+                        ? ''
+                        : post.postImage.url
+                    }
+                    alt=""
+                  />
+                </ImgWrap>
+              </Link>
+            </li>
+          ))}
         </ul>
       </ArticleThumList>
     </MainArticleWrap>
@@ -108,6 +121,10 @@ const ArticleTop = styled.div`
   h2 {
     font-size: 36px;
     font-weight: 800;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 `;
 const WeeklyArticle = styled(Link)`
@@ -131,6 +148,10 @@ const ArticleThumList = styled.div`
         position: absolute;
         bottom: 15px;
         left: 15px;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
       }
     }
   }
@@ -141,6 +162,10 @@ const HotArticle = styled(Link)`
     margin-top: 20px;
     font-size: 20px;
     font-weight: 700;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 `;
 const ImgWrap = styled.picture`
