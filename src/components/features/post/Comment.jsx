@@ -187,6 +187,9 @@ const CommentInput = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;
+  button {
+    margin: 0;
+  }
 `;
 const InputWarp = styled.div`
   position: relative;
