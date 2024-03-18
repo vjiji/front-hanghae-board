@@ -21,10 +21,7 @@ function LoginModal({ onClose }) {
   };
   const loginSuccess = (response) => {
     // Todo: 토큰, 유저정보 안넘어옴
-    console.log(
-      response,
-      'Todo::유저정보 안넘어옴 수정사항',
-    );
+    console.log(response, '응답 확인');
     const {
       token,
       userId,
@@ -32,7 +29,7 @@ function LoginModal({ onClose }) {
       email,
       nickname,
     } = response;
-    // console.log(response, 'response');
+    console.log(response, 'response');
 
     setCookie('token', token, {});
     useAuthStore.getState().login({
@@ -56,12 +53,16 @@ function LoginModal({ onClose }) {
       return;
     }
     try {
-      const response = await login(id, password);
-      console.log(response, '서버response');
-      setIsSuccess(true);
-      setMessage('로그인에 성공하였습니다!');
-      loginSuccess(response);
-      // Todo: 토큰, 유저정보 안넘어옴
+      const data = await login(id, password);
+      console.log(data, '서버response');
+
+      if (data.token) {
+        setIsSuccess(true);
+        setMessage('로그인에 성공하였습니다!');
+        loginSuccess(data);
+      } else {
+        setMessage('토큰이 없습니다.');
+      }
     } catch (error) {
       console.error('Login error', error);
       setMessage(error.response.data.message);

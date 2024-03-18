@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import postsAPI from 'apis/postsAPI';
 import PostItem from 'components/features/post/PostItem';
 import { useParams } from 'react-router';
+import { ScrollToTopButton } from 'components/common/Button';
 
 const getPostsSearch = async (searchTerm) => {
   const { data } =
@@ -26,14 +27,17 @@ const Search = () => {
     );
   }
   return (
-    <div>
-      {posts.map((post) => (
-        <PostItem
-          key={post.id + post.nickname}
-          post={post}
-        />
-      ))}
-    </div>
+    <>
+      <div>
+        {posts.map((post) => (
+          <PostItem
+            key={post.id + post.nickname}
+            post={post}
+          />
+        ))}
+      </div>
+      <ScrollToTopButton></ScrollToTopButton>
+    </>
   );
 };
 
