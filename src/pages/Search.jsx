@@ -7,7 +7,6 @@ import { useParams } from 'react-router';
 const getPostsSearch = async (searchTerm) => {
   const { data } =
     await postsAPI.getPostsSearch(searchTerm);
-  console.log(data);
   return data.data.data;
 };
 
@@ -26,11 +25,13 @@ const Search = () => {
       </SearchResults>
     );
   }
-  console.log(posts);
   return (
     <div>
       {posts.map((post) => (
-        <PostItem key={post.postId} post={post} />
+        <PostItem
+          key={post.id + post.nickname}
+          post={post}
+        />
       ))}
     </div>
   );
