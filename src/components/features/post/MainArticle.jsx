@@ -138,6 +138,7 @@ const WeeklyArticle = styled(Link)`
   gap: 20px;
   @media (max-width: 900px) {
     grid-template-columns: 1fr;
+    gap: 0;
   }
 `;
 const ArticleThumList = styled.div`
@@ -219,7 +220,7 @@ const Editor = styled.div`
   margin-top: 30px;
   color: #999;
   @media (max-width: 900px) {
-    margin-top: 20px;
+    margin: 20px 0;
   }
 `;
 export default MainArticle;
