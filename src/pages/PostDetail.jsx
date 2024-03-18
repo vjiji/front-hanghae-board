@@ -42,9 +42,7 @@ const PostDetail = () => {
   });
 
   if (!data) return <div>....loading</div>;
-
   const { first: post, second: comment } = data;
-
   return (
     <PostDetailLayout>
       <TitleBox>
