@@ -3,6 +3,7 @@ import {
   useQuery,
 } from '@tanstack/react-query';
 import postsAPI from 'apis/postsAPI';
+import { ScrollToTopButton } from 'components/common/Button';
 import Comment from 'components/features/post/Comment';
 import { POST_CATEGORY } from 'constants/sharedConstants';
 import {
@@ -79,6 +80,7 @@ const PostDetail = () => {
         id={post.id}
         commentList={post.commentList}
       />
+      <ScrollToTopButton></ScrollToTopButton>
     </PostDetailLayout>
   );
 };
