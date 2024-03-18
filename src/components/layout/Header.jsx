@@ -81,7 +81,7 @@ const Header = () => {
     };
     // 스타일
     return (
-      <SearchContainer>
+      <SearchContainer className="search-modal">
         <StyledCloseButton onClick={onClose} />
         <StyledH1>검색 하기!</StyledH1>
         <Input
@@ -312,6 +312,10 @@ const SearchContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
+  input {
+    width: 100%;
+  }
 `;
 const StyledH1 = styled.h1`
   font-size: 24px;
