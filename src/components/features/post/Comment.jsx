@@ -23,8 +23,8 @@ const Comment = ({ commentList, id }) => {
         comment,
         id,
       );
-
-    return data.data;
+    console.log(data);
+    return data.data.second;
   };
   const deleteComment = async (commentId) => {
     const { data } =
@@ -33,7 +33,7 @@ const Comment = ({ commentList, id }) => {
         commentId,
       );
 
-    return data.data;
+    return data.data.second;
   };
   const modifyComment = async ({
     newComment,
@@ -46,7 +46,7 @@ const Comment = ({ commentList, id }) => {
         commentId,
       });
 
-    return data.data;
+    return data.data.second;
   };
 
   const queryClient = useQueryClient();
