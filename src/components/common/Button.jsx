@@ -70,3 +70,34 @@ export const StyledCloseButton = styled.button`
   border: none;
   cursor: pointer;
 `;
+
+// 스크롤 상단 이동 버튼
+
+export const ScrollToTopButton = () => {
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  };
+
+  return (
+    <button
+      onClick={scrollToTop}
+      style={{
+        position: 'fixed',
+        bottom: '30px',
+        right: '80px',
+        border: '1px solid #000',
+        width: '60px',
+        height: '60px',
+        borderRadius: '50%',
+        background: '#000',
+        color: '#FFF',
+        fontSize: '18px',
+      }}
+    >
+      Top
+    </button>
+  );
+};

@@ -1,4 +1,5 @@
 // import LoginModal from 'components/common/LoginModal';
+import { ScrollToTopButton } from 'components/common/Button';
 import Modal from 'components/common/Modal';
 import SignupModal from 'components/common/SignupModal';
 import MainArticle from 'components/features/post/MainArticle';
@@ -12,6 +13,7 @@ const Main = () => {
       <Modal>
         <SignupModal />
       </Modal>
+      <ScrollToTopButton></ScrollToTopButton>
     </>
   );
 };
