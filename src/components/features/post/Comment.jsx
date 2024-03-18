@@ -153,25 +153,29 @@ const Comment = ({ commentList, id }) => {
           {commentList.map((list) => {
             return (
               <CommentItem key={list.id}>
-                <span>{list.nickname}</span>
-                <span>{list.createdAt}</span>
+                <WriterInfo>
+                  <span>{list.nickname}</span>
+                  <span>{list.createdAt}</span>
+                </WriterInfo>
                 <p className="comment">
                   {list.comment}
                 </p>
-                <button
-                  onClick={() =>
-                    handleModifyBtn(list)
-                  }
-                >
-                  수정
-                </button>
-                <button
-                  onClick={() =>
-                    handleDelComment(list.id)
-                  }
-                >
-                  삭제
-                </button>
+                <BtnWrap>
+                  <button
+                    onClick={() =>
+                      handleModifyBtn(list)
+                    }
+                  >
+                    수정
+                  </button>
+                  <button
+                    onClick={() =>
+                      handleDelComment(list.id)
+                    }
+                  >
+                    삭제
+                  </button>
+                </BtnWrap>
               </CommentItem>
             );
           })}
@@ -230,20 +234,36 @@ const CommentItem = styled.li`
   gap: 10px;
   padding: 10px 0;
   border-bottom: 1px solid #ddd;
+  @media (max-width: 900px) {
+    flex-direction: column;
+    align-items: flex-start;
+    .comment {
+      font-size: 18px;
+    }
+  }
   .comment {
-    margin: 0 20px;
     flex: 1;
     font-size: 16px;
     color: #222;
   }
-  span {
-    font-size: 16px;
-    color: #777;
-  }
+`;
+const BtnWrap = styled.div`
+  margin-left: auto;
   button {
     margin-left: auto;
     font-size: 16px;
   }
+  @media (max-width: 900px) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 `;
-
+const WriterInfo = styled.div`
+  span {
+    font-size: 16px;
+    color: #777;
+  }
+  display: flex;
+  gap: 15px;
+`;
 export default Comment;

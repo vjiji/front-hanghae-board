@@ -121,18 +121,24 @@ const ArticleTop = styled.div`
   grid-template-columns: 3fr 1fr;
   gap: 20px;
   h2 {
-    font-size: 36px;
+    font-size: 30px;
     font-weight: 800;
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+  }
 `;
 const WeeklyArticle = styled(Link)`
   display: grid;
   grid-template-columns: 1fr 2fr;
   gap: 20px;
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+  }
 `;
 const ArticleThumList = styled.div`
   margin-top: 20px;
@@ -142,25 +148,40 @@ const ArticleThumList = styled.div`
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 20px;
+    @media (max-width: 900px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
     li {
       width: 100%;
       position: relative;
       overflow: hidden;
       p {
         position: absolute;
-        bottom: 15px;
-        left: 15px;
+        bottom: 0;
+        left: 0;
         display: -webkit-box;
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
         overflow: hidden;
         line-height: 1.2;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 1;
+        width: 100%;
+        color: #fff;
+        padding: 10px 20px;
       }
     }
   }
 `;
 const HotArticle = styled(Link)`
   display: block;
+  @media (max-width: 900px) {
+    display: flex;
+    flex-direction: column;
+    picture {
+      order: 1;
+    }
+  }
   h3 {
     margin-top: 20px;
     font-size: 20px;
@@ -170,6 +191,9 @@ const HotArticle = styled(Link)`
     -webkit-box-orient: vertical;
     overflow: hidden;
     line-height: 1.2;
+    @media (max-width: 900px) {
+      font-size: 30px;
+    }
   }
 `;
 const ImgWrap = styled.picture`
@@ -179,6 +203,7 @@ const ImgWrap = styled.picture`
   padding-top: 56.25%;
   height: 0;
   width: 100%;
+
   img {
     position: absolute;
     top: 50%;
@@ -193,5 +218,8 @@ const Editor = styled.div`
   justify-content: space-between;
   margin-top: 30px;
   color: #999;
+  @media (max-width: 900px) {
+    margin-top: 20px;
+  }
 `;
 export default MainArticle;

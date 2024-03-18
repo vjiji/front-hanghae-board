@@ -97,7 +97,10 @@ const PostDetailLayout = styled.div`
   flex-direction: column;
   gap: 30px;
   max-width: 800px;
-
+  @media (max-width: 900px) {
+    gap: 10px;
+    margin: 50px auto;
+  }
   p {
     font-size: 20px;
     line-height: 1.5;

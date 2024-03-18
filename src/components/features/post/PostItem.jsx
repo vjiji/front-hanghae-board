@@ -26,7 +26,6 @@ const PostItem = ({ post, countInfo }) => {
         <InfoWrap>
           <em>{POST_CATEGORY[category]}</em>
           <h3>{title}</h3>
-          <p>{contnents}</p>
           <span>{nickname} 기자</span>
           <span>{countInfo}</span>
         </InfoWrap>
@@ -41,8 +40,11 @@ const ListItem = styled.div`
   a {
     display: grid;
     grid-template-columns: 1fr 2fr;
-    gap: 20px;
-    padding: 20px 0;
+    gap: 10px;
+    padding: 10px 0;
+    @media (max-width: 900px) {
+      grid-template-columns: 1fr;
+    }
   }
 `;
 
@@ -73,6 +75,9 @@ const InfoWrap = styled.div`
   h3 {
     font-size: 30px;
     font-weight: 700;
+    @media (max-width: 900px) {
+      font-size: 20px;
+    }
   }
   p {
     font-size: 20px;

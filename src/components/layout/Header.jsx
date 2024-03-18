@@ -142,9 +142,14 @@ const Header = () => {
       <HeaderContainer>
         <Section>
           <NewsAction>
-            <img src={PenIcon} alt="작성"></img>
             <News onClick={handleGoToNewPost}>
-              뉴스 작성하기
+              <p>
+                <img
+                  src={PenIcon}
+                  alt="작성"
+                ></img>
+                <span> 뉴스 작성하기</span>
+              </p>
             </News>
           </NewsAction>
           <Logo onClick={handleLogoClick}>
@@ -252,6 +257,16 @@ const News = styled.a`
   text-decoration: none;
   color: black;
   cursor: pointer;
+  p {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  @media (max-width: 900px) {
+    span {
+      display: none;
+    }
+  }
 `;
 
 const NewsAction = styled.div`
