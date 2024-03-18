@@ -13,6 +13,7 @@ import Input from 'components/common/Input';
 import useAuthStore from 'store/authStore';
 import { removeCookie } from 'cookies/cookies';
 import { POST_CATEGORY } from 'constants/sharedConstants';
+import usePageStore from 'store/categoryStore';
 
 const Header = () => {
   const navigate = useNavigate();
@@ -20,30 +21,32 @@ const Header = () => {
     useState(false);
   const [modalContent, setModalContent] =
     useState('');
+  const { pageInfo, setCategory } =
+    usePageStore();
 
   const { userId, isReporter } = useAuthStore();
 
-  console.log(userId);
-
   // 뉴스 작성하기 이동
   const handleGoToNewPost = () => {
-    if (isReporter) {
-      navigate('/newpost');
-    } else {
-      openModal('notReporter');
-    }
+    // if (isReporter) {
+    //   navigate('/newpost');
+    // } else {
+    //   openModal('notReporter');
+    // }
     navigate('/newpost');
   };
 
   //로고 클릭 이동
   const handleLogoClick = () => {
     localStorage.setItem('category', '');
+    setCategory('');
     navigate('/');
   };
 
   // 카테고리 클릭 이동
   const handleCategoryClick = (categoryKey) => {
     localStorage.setItem('category', categoryKey);
+    setCategory(categoryKey);
   };
   // 로그인 처리
   // const handleLoginSuccess = () => {
@@ -193,6 +196,9 @@ const Header = () => {
                 onClick={() =>
                   handleCategoryClick(key)
                 }
+                $active={
+                  key === pageInfo.category
+                }
               >
                 {value}
               </NavItem>
@@ -287,7 +293,10 @@ const Nav = styled.nav`
 
 const NavItem = styled.a`
   font-size: 16px;
-  color: #666;
+  font-weight: ${({ $active }) =>
+    $active ? 600 : 400};
+  color: ${({ $active }) =>
+    $active ? '#000' : '#666'};
   text-decoration: none;
   cursor: pointer;
   &:hover {
