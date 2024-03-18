@@ -30,6 +30,7 @@ const MainArticle = () => {
   if (!post) {
     return null;
   }
+
   return (
     <MainArticleWrap>
       <ArticleTop>
@@ -46,7 +47,7 @@ const MainArticle = () => {
                   <span>
                     {post.nickname} 기자
                   </span>
-                  <span>88,000</span>
+                  <span>{post.hit}</span>
                 </Editor>
               </div>
               <ImgWrap>
@@ -82,7 +83,7 @@ const MainArticle = () => {
               <h3>&#34;{post.title}&#34;</h3>
               <Editor>
                 <span>{post.nickname} 기자</span>
-                <span>88,000</span>
+                <span>{post.hit}</span>
               </Editor>
             </HotArticle>
           ))}
