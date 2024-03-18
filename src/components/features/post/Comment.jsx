@@ -68,6 +68,9 @@ const Comment = ({ commentList, id }) => {
         id,
       ]);
     },
+    onError: () => {
+      alert('본인 작성댓글만 삭제가 가능합니다.');
+    },
   });
   const { mutate: modifyMutate } = useMutation({
     mutationFn: modifyComment,
@@ -78,6 +81,9 @@ const Comment = ({ commentList, id }) => {
       ]);
       setNewComment('');
       setcommentId('');
+    },
+    onError: () => {
+      alert('본인 작성댓글만 수정이 가능합니다.');
     },
   });
   const handleSubmit = (e) => {

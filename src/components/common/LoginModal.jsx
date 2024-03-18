@@ -6,7 +6,7 @@ import Input from 'components/common/Input';
 import { login } from 'apis/login';
 import useAuthStore from 'store/authStore';
 import Modal from './Modal';
-import { setCookie } from 'cookies/cookies';
+// import { setCookie } from 'cookies/cookies';
 
 function LoginModal({ onClose }) {
   // const router = useNavigate();
@@ -61,8 +61,8 @@ function LoginModal({ onClose }) {
     setPassword('');
   };
 
-  const [isReporter, setIsReporter] =
-    useState(false);
+  // const [isReporter, setIsReporter] =
+  //   useState(false);
 
   const handleModalButtonClick = () => {
     setMessage('');
@@ -73,7 +73,7 @@ function LoginModal({ onClose }) {
     <>
       <Title>HanghaeBoard</Title>
       <UserBlock>
-        <TabBtn
+        {/* <TabBtn
           $active={!isReporter}
           onClick={() => setIsReporter(false)}
         >
@@ -84,7 +84,7 @@ function LoginModal({ onClose }) {
           onClick={() => setIsReporter(true)}
         >
           기자
-        </TabBtn>
+        </TabBtn> */}
       </UserBlock>
       <InputBlock>
         <h2>이메일*</h2>
@@ -147,11 +147,11 @@ const UserBlock = styled.div`
   margin-bottom: 15px;
 `;
 
-const TabBtn = styled.button`
-  font-size: 14px;
-  font-weight: ${(props) =>
-    props.$active ? 'bold' : 'normal'};
-`;
+// const TabBtn = styled.button`
+//   font-size: 14px;
+//   font-weight: ${(props) =>
+//     props.$active ? 'bold' : 'normal'};
+// `;
 
 const InnerModalLayout = styled.div`
   text-align: center;
