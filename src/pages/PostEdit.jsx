@@ -37,7 +37,7 @@ const PostEdit = () => {
 
   useEffect(() => {
     if (post) {
-      handleGetPostSuccess();
+      handleGetPostSuccess(post.first);
     }
   }, [post]);
 
@@ -58,7 +58,7 @@ const PostEdit = () => {
     watch,
   } = useForm({ mode: 'onSubmit' });
 
-  const handleGetPostSuccess = () => {
+  const handleGetPostSuccess = (post) => {
     setValue('title', post.title);
     setValue(
       'category',
@@ -74,7 +74,7 @@ const PostEdit = () => {
         category: getCategoryKey(
           form['category'],
         ),
-        imgId: post.postImageList[0]?.id,
+        imgId: post.first.postImageList[0]?.id,
       },
       'updatePostRequestDto',
     );
@@ -93,7 +93,7 @@ const PostEdit = () => {
         setValue={setValue}
         errors={errors}
         imageName={
-          post.postImageList[0]?.imageName
+          post.first.postImageList[0]?.imageName
         }
       />
     </NewPostLayout>
