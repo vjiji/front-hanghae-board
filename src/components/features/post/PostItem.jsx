@@ -16,18 +16,15 @@ const PostItem = ({ post, countInfo }) => {
   return (
     <ListItem>
       <Link to={`/posts/${id}`}>
-        {/* <ImgWrap>
-<img
-src={postImage?.url}
-alt={postImage?.imageName}
-/>
-</ImgWrap> */}
-        <ImgBox
-          $img={
-            postImage?.url ??
-            'https://github.com/pmndrs/zustand/raw/main/bear.jpg'
-          }
-        ></ImgBox>
+        <ImgWrap>
+          <img
+            src={
+              postImage?.url ??
+              'https://github.com/pmndrs/zustand/raw/main/bear.jpg'
+            }
+            alt={postImage?.imageName}
+          />
+        </ImgWrap>
         <InfoWrap>
           <em>{POST_CATEGORY[category]}</em>
           <h3>{title}</h3>
@@ -50,15 +47,24 @@ const ListItem = styled.div`
     padding: 20px 0;
   }
 `;
-// const ImgWrap = styled.div`
-//   //더미
-//   background: #ddd;
-//   height: 280px;
 
-//   img {
-//     height: 100%;
-//   }
-// `;
+const ImgWrap = styled.picture`
+  display: block;
+  position: relative;
+  overflow: hidden;
+  padding-top: 100%;
+  height: 0;
+  width: 100%;
+  img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: auto;
+  }
+`;
+
 const InfoWrap = styled.div`
   display: flex;
   flex-direction: column;
@@ -80,14 +86,4 @@ const InfoWrap = styled.div`
   span + span {
     margin-top: auto;
   }
-`;
-
-const ImgBox = styled.div`
-  width: 100%;
-  height: 280px;
-  background-image: ${({ $img }) =>
-    `url(${$img})`};
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
 `;
