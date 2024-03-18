@@ -1,14 +1,16 @@
+import { POST_CATEGORY } from 'constants/sharedConstants';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-const PostItem = ({ post }) => {
+const PostItem = ({ post, countInfo }) => {
   const {
     postId,
     nickname,
     title,
     category,
     contnents,
+    // postImage,
   } = post;
   return (
     <ListItem key={postId}>
@@ -17,11 +19,12 @@ const PostItem = ({ post }) => {
           <img src="" alt="" />
         </ImgWrap>
         <InfoWrap>
-          <em>{category}</em>
+          <em>{POST_CATEGORY[category]}</em>
           <h3>{title}</h3>
           <p>{contnents}</p>
           <span>{nickname} 기자</span>
           <span>994,999</span>
+          <span>{countInfo}</span>
         </InfoWrap>
       </Link>
     </ListItem>
