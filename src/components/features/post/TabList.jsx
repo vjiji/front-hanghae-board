@@ -1,43 +1,40 @@
-import { useState } from 'react';
 import styled, { css } from 'styled-components';
-import PostItem from './PostItem';
-import {
-  POST_TAB_KEY,
-  TAB_NAME,
-} from 'constants/sharedConstants';
-// import postsAPI from 'apis/postsAPI';
 import { useQuery } from '@tanstack/react-query';
+import PostItem from './PostItem';
+import { TAB_NAME } from 'constants/sharedConstants';
+import postsAPI from 'apis/postsAPI';
+import usePageStore from 'store/categoryStore';
 
 const getPosts = async (tab, category) => {
-  console.log(tab, category);
-  // const data = await postsAPI.getPostsByTab(
-  //   tab,
-  //   category,
-  // );
-  // console.log(data);
-  // return data;
+  const { data } = await postsAPI.getPostsByTab(
+    tab,
+    category,
+  );
+  return data.data;
 };
 const TabList = () => {
-  const currentCategory =
-    localStorage.getItem('category');
-  const [activeTab, setActiveTab] = useState(
-    POST_TAB_KEY[0],
-  );
+  const { pageInfo, setTab } = usePageStore();
+  const {
+    category: currentCategory,
+    tab: currentTab,
+  } = pageInfo;
+
   const { data: posts } = useQuery({
     queryKey: [
       `posts${currentCategory ? `_${currentCategory}` : ''}`,
-      activeTab,
+      currentTab,
     ],
-    queryFn: getPosts(activeTab, currentCategory),
-    enabled: !!activeTab,
+    queryFn: () =>
+      getPosts(currentTab, currentCategory),
+    enabled: !!currentTab,
   });
 
   const handleTabClick = (tabName) => {
-    setActiveTab(tabName);
+    setTab(tabName);
   };
 
   if (!posts) return null;
-  console.log(posts);
+
   return (
     <>
       <TabMenu>
@@ -46,7 +43,7 @@ const TabList = () => {
             ([name, value]) => (
               <TabBtn
                 key={`${name}_${value}`}
-                $active={activeTab === name}
+                $active={currentTab === name}
                 onClick={() =>
                   handleTabClick(name)
                 }
@@ -56,13 +53,21 @@ const TabList = () => {
             ),
           )}
         </TabBtns>
-        <PostItem />
-        <PostItem />
-        <PostItem />
+        <ItemLayout>
+          {posts.responseDto.map((post) => (
+            <PostItem
+              key={post.id + post.nickname}
+              post={post}
+              countInfo={`조회수 ${post.hit}`}
+            />
+          ))}
+        </ItemLayout>
       </TabMenu>
     </>
   );
 };
+
+export default TabList;
 
 const TabMenu = styled.div`
   margin-top: 80px;
@@ -96,4 +101,8 @@ const TabBtn = styled.button`
     `}
 `;
 
-export default TabList;
+const ItemLayout = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+`;
